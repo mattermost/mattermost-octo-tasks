@@ -7,6 +7,7 @@ import {IBlock, MutableBlock} from './block'
 interface Card extends IBlock {
     readonly icon: string
     readonly isTemplate: boolean
+    readonly isDefaultTemplate: boolean
     readonly properties: Readonly<Record<string, string>>
     readonly contentOrder: readonly string[]
 
@@ -26,6 +27,13 @@ class MutableCard extends MutableBlock implements Card {
     }
     set isTemplate(value: boolean) {
         this.fields.isTemplate = value
+    }
+
+    get isDefaultTemplate(): boolean {
+        return this.isTemplate && Boolean(this.fields.isDefaultTemplate)
+    }
+    set isDefaultTemplate(value: boolean) {
+        this.isTemplate && (this.fields.isDefaultTemplate = value)
     }
 
     get properties(): Record<string, string> {

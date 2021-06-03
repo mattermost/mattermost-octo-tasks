@@ -12,8 +12,11 @@ import EditIcon from '../../widgets/icons/edit'
 import OptionsIcon from '../../widgets/icons/options'
 import Menu from '../../widgets/menu'
 import MenuWrapper from '../../widgets/menuWrapper'
+import CheckIcon from '../../widgets/icons/check'
+import {BoardTree} from "../../viewModel/boardTree";
 
 type Props = {
+    boardTree: BoardTree
     cardTemplate: Card
     addCardFromTemplate: (cardTemplateId: string) => void
     editCardTemplate: (cardTemplateId: string) => void
@@ -23,12 +26,15 @@ const NewCardButtonTemplateItem = React.memo((props: Props) => {
     const {cardTemplate} = props
     const intl = useIntl()
     const displayName = cardTemplate.title || intl.formatMessage({id: 'ViewHeader.untitled', defaultMessage: 'Untitled'})
+
+    const icon = cardTemplate.isDefaultTemplate ? <CheckIcon/> : cardTemplate.icon
+
     return (
         <Menu.Text
             key={cardTemplate.id}
             id={cardTemplate.id}
             name={displayName}
-            icon={<div className='Icon'>{cardTemplate.icon}</div>}
+            icon={icon}
             onClick={() => {
                 props.addCardFromTemplate(cardTemplate.id)
             }}
@@ -36,6 +42,14 @@ const NewCardButtonTemplateItem = React.memo((props: Props) => {
                 <MenuWrapper stopPropagationOnToggle={true}>
                     <IconButton icon={<OptionsIcon/>}/>
                     <Menu position='left'>
+                        <Menu.Text
+                            icon={<CheckIcon/>}
+                            id='default'
+                            name={intl.formatMessage({id: 'ViewHeader.set-default-template', defaultMessage: 'Set as default'})}
+                            onClick={async () => {
+                                await mutator.setAsDefaultTemplate(props.boardTree, cardTemplate)
+                            }}
+                        />
                         <Menu.Text
                             icon={<EditIcon/>}
                             id='edit'
