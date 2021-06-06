@@ -30,7 +30,11 @@ func (a *App) GetParentID(c store.Container, blockID string) (string, error) {
 }
 
 func (a *App) InsertBlock(c store.Container, block model.Block) error {
-	return a.store.InsertBlock(c, block)
+	err := a.store.InsertBlock(c, block)
+	if err == nil {
+		a.metrics.IncrementBlocksInserted(1)
+	}
+	return err
 }
 
 func (a *App) InsertBlocks(c store.Container, blocks []model.Block) error {
@@ -54,6 +58,7 @@ func (a *App) InsertBlocks(c store.Container, blocks []model.Block) error {
 		}
 
 		a.wsServer.BroadcastBlockChange(c.WorkspaceID, block)
+		a.metrics.IncrementBlocksInserted(len(blocks))
 		go a.webhook.NotifyUpdate(block)
 	}
 
@@ -89,6 +94,11 @@ func (a *App) DeleteBlock(c store.Container, blockID string, modifiedBy string) 
 	}
 
 	a.wsServer.BroadcastBlockDelete(c.WorkspaceID, blockID, parentID)
+	a.metrics.IncrementBlocksDeleted(1)
 
 	return nil
+}
+
+func (a *App) GetBlockCountsByType() (map[string]int64, error) {
+	return a.store.GetBlockCountsByType()
 }

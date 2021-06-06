@@ -1,45 +1,68 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState} from 'react'
+import React from 'react'
 import {useIntl} from 'react-intl'
-import {ActionMeta, ValueType, FormatOptionLabelMeta} from 'react-select'
+import {ActionMeta, FormatOptionLabelMeta, ValueType} from 'react-select'
 import CreatableSelect from 'react-select/creatable'
+
 import {CSSObject} from '@emotion/serialize'
 
 import {IPropertyOption} from '../blocks/board'
 import {Constants} from '../constants'
+
+import {getSelectBaseStyle} from '../theme'
 
 import Menu from './menu'
 import MenuWrapper from './menuWrapper'
 import IconButton from './buttons/iconButton'
 import OptionsIcon from './icons/options'
 import DeleteIcon from './icons/delete'
+import CloseIcon from './icons/close'
 import Label from './label'
 
 import './valueSelector.scss'
 
 type Props = {
     options: IPropertyOption[]
-    value?: IPropertyOption
+    value?: IPropertyOption | IPropertyOption[]
     emptyValue: string
     onCreate: (value: string) => void
-    onChange: (value: string) => void
+    onChange: (value: string | string[]) => void
     onChangeColor: (option: IPropertyOption, color: string) => void
     onDeleteOption: (option: IPropertyOption) => void
+    isMulti?: boolean
+    onDeleteValue?: (value: IPropertyOption) => void
 }
 
 type LabelProps = {
     option: IPropertyOption
-    meta: FormatOptionLabelMeta<IPropertyOption, false>
+    meta: FormatOptionLabelMeta<IPropertyOption, true | false>
     onChangeColor: (option: IPropertyOption, color: string) => void
     onDeleteOption: (option: IPropertyOption) => void
+    onDeleteValue?: (value: IPropertyOption) => void
 }
 
 const ValueSelectorLabel = React.memo((props: LabelProps): JSX.Element => {
-    const {option, meta} = props
+    const {option, onDeleteValue, meta} = props
     const intl = useIntl()
     if (meta.context === 'value') {
-        return <Label color={option.color}>{option.value}</Label>
+        return (
+            <Label
+                color={option.color}
+                classNames={`${onDeleteValue ? 'Label-no-padding' : 'Label-single-select'}`}
+            >
+                <span className='Label-text'>{option.value}</span>
+                {onDeleteValue &&
+                    <IconButton
+                        onClick={() => onDeleteValue(option)}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        icon={<CloseIcon/>}
+                        title='Close'
+                        className='margin-left'
+                    />
+                }
+            </Label>
+        )
     }
     return (
         <div className='value-menu-option'>
@@ -70,83 +93,67 @@ const ValueSelectorLabel = React.memo((props: LabelProps): JSX.Element => {
     )
 })
 
-function ValueSelector(props: Props): JSX.Element {
-    const [activated, setActivated] = useState(false)
+const valueSelectorStyle = {
+    ...getSelectBaseStyle(),
+    option: (provided: CSSObject, state: {isFocused: boolean}): CSSObject => ({
+        ...provided,
+        background: state.isFocused ? 'rgba(var(--main-fg), 0.1)' : 'rgb(var(--main-bg))',
+        color: state.isFocused ? 'rgb(var(--main-fg))' : 'rgb(var(--main-fg))',
+        padding: '8px',
+    }),
+    control: (): CSSObject => ({
+        border: 0,
+        width: '100%',
+        margin: '0',
+    }),
+    valueContainer: (provided: CSSObject): CSSObject => ({
+        ...provided,
+        padding: '0 8px',
+        overflow: 'unset',
+    }),
+    multiValue: (provided: CSSObject): CSSObject => ({
+        ...provided,
+        margin: 0,
+        padding: 0,
+        backgroundColor: 'transparent',
+    }),
+    multiValueLabel: (provided: CSSObject): CSSObject => ({
+        ...provided,
+        display: 'flex',
+        paddingLeft: 0,
+        padding: 0,
+    }),
+    multiValueRemove: (): CSSObject => ({
+        display: 'none',
+    }),
+}
 
-    if (!activated) {
-        return (
-            <div
-                className='ValueSelector'
-                onClick={() => setActivated(true)}
-            >
-                <Label color={props.value ? props.value.color : 'empty'}>
-                    {props.value ? props.value.value : props.emptyValue}
-                </Label>
-            </div>
-        )
-    }
+function ValueSelector(props: Props): JSX.Element {
     return (
         <CreatableSelect
+            isMulti={props.isMulti}
             isClearable={true}
-            styles={{
-                indicatorsContainer: (provided: CSSObject): CSSObject => ({
-                    ...provided,
-                    display: 'none',
-                }),
-                menu: (provided: CSSObject): CSSObject => ({
-                    ...provided,
-                    width: 'unset',
-                    background: 'rgb(var(--main-bg))',
-                }),
-                option: (provided: CSSObject, state: {isFocused: boolean}): CSSObject => ({
-                    ...provided,
-                    background: state.isFocused ? 'rgba(var(--main-fg), 0.1)' : 'rgb(var(--main-bg))',
-                    color: state.isFocused ? 'rgb(var(--main-fg))' : 'rgb(var(--main-fg))',
-                    padding: '2px 8px',
-                }),
-                control: (): CSSObject => ({
-                    border: 0,
-                    width: '100%',
-                    margin: '4px 0 0 0',
-                }),
-                valueContainer: (provided: CSSObject): CSSObject => ({
-                    ...provided,
-                    padding: '0 8px',
-                    overflow: 'unset',
-                }),
-                singleValue: (provided: CSSObject): CSSObject => ({
-                    ...provided,
-                    color: 'rgb(var(--main-fg))',
-                    overflow: 'unset',
-                    maxWidth: 'calc(100% - 20px)',
-                }),
-                input: (provided: CSSObject): CSSObject => ({
-                    ...provided,
-                    paddingBottom: 0,
-                    paddingTop: 0,
-                    marginBottom: 0,
-                    marginTop: 0,
-                }),
-                menuList: (provided: CSSObject): CSSObject => ({
-                    ...provided,
-                    overflowY: 'unset',
-                }),
-            }}
-            formatOptionLabel={(option: IPropertyOption, meta: FormatOptionLabelMeta<IPropertyOption, false>) => (
+            styles={valueSelectorStyle}
+            formatOptionLabel={(option: IPropertyOption, meta: FormatOptionLabelMeta<IPropertyOption, true | false>) => (
                 <ValueSelectorLabel
                     option={option}
                     meta={meta}
                     onChangeColor={props.onChangeColor}
                     onDeleteOption={props.onDeleteOption}
+                    onDeleteValue={props.onDeleteValue}
                 />
             )}
             className='ValueSelector'
             options={props.options}
             getOptionLabel={(o: IPropertyOption) => o.value}
             getOptionValue={(o: IPropertyOption) => o.id}
-            onChange={(value: ValueType<IPropertyOption, false>, action: ActionMeta<IPropertyOption>): void => {
+            onChange={(value: ValueType<IPropertyOption, true | false>, action: ActionMeta<IPropertyOption>): void => {
                 if (action.action === 'select-option') {
-                    props.onChange((value as IPropertyOption).id)
+                    if (Array.isArray(value)) {
+                        props.onChange((value as IPropertyOption[]).map((option) => option.id))
+                    } else {
+                        props.onChange((value as IPropertyOption).id)
+                    }
                 } else if (action.action === 'clear') {
                     props.onChange('')
                 }
@@ -156,7 +163,8 @@ function ValueSelector(props: Props): JSX.Element {
             value={props.value}
             closeMenuOnSelect={true}
             placeholder={props.emptyValue}
-            defaultMenuIsOpen={true}
+            hideSelectedOptions={false}
+            defaultMenuIsOpen={false}
         />
     )
 }

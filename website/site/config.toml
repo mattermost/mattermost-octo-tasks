@@ -133,7 +133,7 @@ pygmentsStyle = "manni"
   # Footer section
   [params.footer]
     enable = true
-  	twitter = 'https://twitter.com/mattermost'
+  	twitter = 'https://twitter.com/Focalboard'
   	facebook = 'https://www.facebook.com/Mattermost-2300985916642531/'
   	youtube = 'https://www.youtube.com/channel/UCNR05H72hi692y01bWaFXNA'
     copyright = '&copy; Mattermost, Inc. All Rights Reserved.'

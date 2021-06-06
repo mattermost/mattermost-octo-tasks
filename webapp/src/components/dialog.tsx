@@ -28,15 +28,15 @@ const Dialog = React.memo((props: Props) => {
     useHotkeys('esc', () => props.onClose())
 
     return (
-        <div
-            className='Dialog dialog-back'
-            onMouseDown={(e) => {
-                if (e.target === e.currentTarget) {
-                    props.onClose()
-                }
-            }}
-        >
-            <div className='wrapper' >
+        <div className='Dialog dialog-back'>
+            <div
+                className='wrapper'
+                onMouseDown={(e) => {
+                    if (e.target === e.currentTarget) {
+                        props.onClose()
+                    }
+                }}
+            >
                 <div className='dialog' >
                     <div className='toolbar'>
                         {toolsMenu &&

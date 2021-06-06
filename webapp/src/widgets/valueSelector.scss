@@ -13,18 +13,37 @@
     }
 
     .Label {
-        display: inline-block;
+        display: flex;
         text-overflow: ellipsis;
         overflow: hidden;
         border-radius: var(--default-rad);
         max-width: 100%;
     }
 
+    .Label-no-padding {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .Label-single-select {
+        margin-bottom: 0px;
+    }
+
+    .Label-text {
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 250px;
+    }
+
     .value-menu-option {
         display: flex;
         width: 100%;
+        justify-content: center;
+        align-items: center;
         .label-container {
             flex-grow: 1;
+            display: flex;
         }
         .MenuWrapper {
             display: flex;
@@ -37,4 +56,20 @@
             }
         }
     }
+}
+
+.label-container > .Label {
+    max-width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+
+    
+}
+
+.octo-property-value > .Label {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
 }

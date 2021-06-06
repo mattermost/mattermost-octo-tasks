@@ -30,6 +30,7 @@ var (
 
 	// add more here ...
 	Telemetry = Level{ID: 500, Name: "telemetry"}
+	Metrics   = Level{ID: 501, Name: "metrics"}
 )
 
 // Combinations for LogM (log multi)

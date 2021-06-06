@@ -435,3 +435,35 @@ func (s *SQLStore) DeleteBlock(c store.Container, blockID string, modifiedBy str
 
 	return nil
 }
+
+func (s *SQLStore) GetBlockCountsByType() (map[string]int64, error) {
+	query := s.getQueryBuilder().
+		Select(
+			"type",
+			"COUNT(*) AS count",
+		).
+		From(s.tablePrefix + "blocks").
+		GroupBy("type")
+
+	rows, err := query.Query()
+	if err != nil {
+		s.logger.Error(`GetBlockCountsByType ERROR`, mlog.Err(err))
+
+		return nil, err
+	}
+
+	m := make(map[string]int64)
+
+	for rows.Next() {
+		var blockType string
+		var count int64
+
+		err := rows.Scan(&blockType, &count)
+		if err != nil {
+			s.logger.Error("Failed to fetch block count", mlog.Err(err))
+			return nil, err
+		}
+		m[blockType] = count
+	}
+	return m, nil
+}

@@ -601,6 +601,8 @@ github.com/mattermost/ldap v0.0.0-20201202150706-ee0e6284187d h1:/RJ/UV7M5c7L2TQ
 github.com/mattermost/ldap v0.0.0-20201202150706-ee0e6284187d/go.mod h1:HLbgMEI5K131jpxGazJ97AxfPDt31osq36YS1oxFQPQ=
 github.com/mattermost/logr v1.0.13 h1:6F/fM3csvH6Oy5sUpJuW7YyZSzZZAhJm5VcgKMxA2P8=
 github.com/mattermost/logr v1.0.13/go.mod h1:Mt4DPu1NXMe6JxPdwCC0XBoxXmN9eXOIRPoZarU2PXs=
+github.com/mattermost/logr/v2 v2.0.2 h1:+TDMWOFKfSmr9CDJqUUJouD+ZoYFhDL7URedKVYhjLg=
+github.com/mattermost/logr/v2 v2.0.2/go.mod h1:mpPp935r5dIkFDo2y9Q87cQWhFR/4xXpNh0k/y8Hmwg=
 github.com/mattermost/mattermost-server/v5 v5.3.2-0.20210524045451-a4f7df6f6e3c h1:p0C9yt6UYyTExEeHjBPBUCwCMAyTWvwAEc2/plNuZL4=
 github.com/mattermost/mattermost-server/v5 v5.3.2-0.20210524045451-a4f7df6f6e3c/go.mod h1:6CqGEG0Vnhrl23h8LB+lcOIT8KIUhzbJ7qhXlV7Ek9U=
 github.com/mattermost/rsc v0.0.0-20160330161541-bbaefb05eaa0/go.mod h1:nV5bfVpT//+B1RPD2JvRnxbkLmJEYXmRaaVl15fsXjs=

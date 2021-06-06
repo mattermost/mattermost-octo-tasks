@@ -143,8 +143,7 @@ const MarkdownEditor = (props: Props): JSX. Element => {
                     autoDownloadFontAwesome: true,
                     toolbar: false,
                     status: false,
-                    spellChecker: false,
-                    inputStyle: 'contenteditable',
+                    spellChecker: true,
                     nativeSpellcheck: true,
                     minHeight: '10px',
                     shortcuts: {

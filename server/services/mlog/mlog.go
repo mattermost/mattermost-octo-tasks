@@ -133,15 +133,11 @@ func (l *Logger) Configure(cfgFile string, cfgEscaped string) error {
 
 	// Add config from escaped json string
 	if cfgEscaped != "" {
-		if b, err := decodeEscapedJSONString(string(cfgEscaped)); err != nil {
-			return fmt.Errorf("error unescaping logger config as escaped json: %w", err)
-		} else {
-			var mapCfgEscaped LoggerConfig
-			if err := json.Unmarshal(b, &mapCfgEscaped); err != nil {
-				return fmt.Errorf("error decoding logger config as escaped json: %w", err)
-			}
-			cfgMap.append(mapCfgEscaped)
+		var mapCfgEscaped LoggerConfig
+		if err := json.Unmarshal([]byte(cfgEscaped), &mapCfgEscaped); err != nil {
+			return fmt.Errorf("error decoding logger config as escaped json: %w", err)
 		}
+		cfgMap.append(mapCfgEscaped)
 	}
 
 	if len(cfgMap) == 0 {
@@ -149,18 +145,6 @@ func (l *Logger) Configure(cfgFile string, cfgEscaped string) error {
 	}
 
 	return logrcfg.ConfigureTargets(l.log.Logr(), cfgMap, nil)
-}
-
-func decodeEscapedJSONString(s string) ([]byte, error) {
-	type wrapper struct {
-		wrap string
-	}
-	var wrapped wrapper
-	ss := fmt.Sprintf("{\"wrap\":%s}", s)
-	if err := json.Unmarshal([]byte(ss), &wrapped); err != nil {
-		return nil, err
-	}
-	return []byte(wrapped.wrap), nil
 }
 
 // With creates a new Logger with the specified fields. This is a light-weight

@@ -14,20 +14,16 @@ type Props = {
 }
 
 const ViewHeaderSearch = (props: Props) => {
-    const {boardTree} = props
+    const {boardTree, setSearchText} = props
     const intl = useIntl()
 
     const searchFieldRef = useRef<{focus(selectAll?: boolean): void}>(null)
-    const [isSearching, setIsSearching] = useState(Boolean(props.boardTree.getSearchText()))
+    const [isSearching, setIsSearching] = useState(Boolean(boardTree.getSearchText()))
     const [searchValue, setSearchValue] = useState(boardTree.getSearchText())
 
     useEffect(() => {
         searchFieldRef.current?.focus()
     }, [isSearching])
-
-    useEffect(() => {
-        setSearchValue(boardTree.getSearchText())
-    }, [boardTree])
 
     useHotkeys('ctrl+shift+f,cmd+shift+f', () => {
         setIsSearching(true)
@@ -44,13 +40,13 @@ const ViewHeaderSearch = (props: Props) => {
                 onCancel={() => {
                     setSearchValue('')
                     setIsSearching(false)
-                    props.setSearchText('')
+                    setSearchText('')
                 }}
                 onSave={() => {
                     if (searchValue === '') {
                         setIsSearching(false)
                     }
-                    props.setSearchText(searchValue)
+                    setSearchText(searchValue)
                 }}
             />
         )

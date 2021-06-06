@@ -12,7 +12,7 @@ require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/lib/pq v1.10.0
 	github.com/magiconair/properties v1.8.5 // indirect
-	github.com/mattermost/logr/v2 v2.0.0-20210525034931-179e4b3c986d
+	github.com/mattermost/logr/v2 v2.0.2
 	github.com/mattermost/mattermost-server/v5 v5.3.2-0.20210524045451-a4f7df6f6e3c
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
@@ -26,7 +26,6 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.7.0
 	github.com/tidwall/gjson v1.7.3 // indirect
-	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sys v0.0.0-20210324051608-47abb6519492 // indirect

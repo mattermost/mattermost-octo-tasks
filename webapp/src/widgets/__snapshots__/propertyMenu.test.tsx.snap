@@ -166,7 +166,37 @@ exports[`widgets/PropertyMenu should match snapshot 1`] = `
                   <div
                     class="menu-name"
                   >
+                    Multi Select
+                  </div>
+                  <div
+                    class="noicon"
+                  />
+                </div>
+                <div
+                  class="MenuOption TextOption menu-option"
+                >
+                  <div
+                    class="noicon"
+                  />
+                  <div
+                    class="menu-name"
+                  >
                     Date
+                  </div>
+                  <div
+                    class="noicon"
+                  />
+                </div>
+                <div
+                  class="MenuOption TextOption menu-option"
+                >
+                  <div
+                    class="noicon"
+                  />
+                  <div
+                    class="menu-name"
+                  >
+                    Person
                   </div>
                   <div
                     class="noicon"

@@ -1,0 +1,196 @@
+name: Dev-Release
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  ubuntu:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Replace token 1
+      run: sed -i -e "s,placeholder_rudder_dataplane_url,${{ secrets.RUDDER_DATAPLANE_URL }},g" ${{ github.workspace }}/server/services/telemetry/telemetry.go
+
+    - name: Replace token 2
+      run: sed -i -e "s,placeholder_rudder_key,${{ secrets.RUDDER_DEV_KEY }},g" ${{ github.workspace }}/server/services/telemetry/telemetry.go
+
+    - name: npm install
+      run: cd webapp; npm install --no-optional
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.1.0
+
+    - name: apt-get update
+      run: sudo apt-get update
+
+    - name: apt-get install libgtk-3-dev
+      run: sudo apt-get install libgtk-3-dev
+
+    - name: apt-get install libwebkit2gtk-4.0-dev
+      run: sudo apt-get install libwebkit2gtk-4.0-dev
+
+    - name: Build Linux server and app
+      run: make server-linux-package linux-app
+      env:
+        BUILD_NUMBER: ${{ github.run_id }}
+
+    - name: Upload server package
+      uses: actions/upload-artifact@v1
+      with:
+        name: focalboard-server-linux-amd64.tar.gz
+        path: ${{ github.workspace }}/dist/focalboard-server-linux-amd64.tar.gz
+
+    - name: Upload app package
+      uses: actions/upload-artifact@v1
+      with:
+        name: focalboard-linux.tar.gz
+        path: ${{ github.workspace }}/linux/dist/focalboard-linux.tar.gz
+
+  macos:
+    runs-on: macos-10.15
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Replace token 1
+      run: sed -i -e "s,placeholder_rudder_dataplane_url,${{ secrets.RUDDER_DATAPLANE_URL }},g" ${{ github.workspace }}/server/services/telemetry/telemetry.go
+
+    - name: Replace token 2
+      run: sed -i -e "s,placeholder_rudder_key,${{ secrets.RUDDER_DEV_KEY }},g" ${{ github.workspace }}/server/services/telemetry/telemetry.go
+
+    - name: npm install
+      run: cd webapp; npm install --no-optional
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+
+    - name: List Xcode versions
+      run: ls -n /Applications/ | grep Xcode*
+
+    - name: Build macOS
+      run: make mac-app
+      env:
+        DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+        BUILD_NUMBER: ${{ github.run_id }}
+
+    - name: Upload macOS package
+      uses: actions/upload-artifact@v1
+      with:
+        name: focalboard-mac.zip
+        path: ${{ github.workspace }}/mac/dist/focalboard-mac.zip
+
+  windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Replace token 1
+      run: sed -i -e "s,placeholder_rudder_dataplane_url,${{ secrets.RUDDER_DATAPLANE_URL }},g" ${{ github.workspace }}/server/services/telemetry/telemetry.go
+
+    - name: Replace token 2
+      run: sed -i -e "s,placeholder_rudder_key,${{ secrets.RUDDER_DEV_KEY }},g" ${{ github.workspace }}/server/services/telemetry/telemetry.go
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: win-node-env
+      run: npm install -g win-node-env
+
+    - name: npm install
+      run: cd webapp; npm install --no-optional
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: '5.x'
+
+    - name: NuGet Restore
+      run: nuget restore win-wpf\Focalboard.sln
+
+    - name: Build Windows WPF app
+      run: make win-wpf-app
+      env:
+        BUILD_NUMBER: ${{ github.run_id }}
+
+    - name: Upload app msix package
+      uses: actions/upload-artifact@v1
+      with:
+        name: focalboard.msix
+        path: ${{ github.workspace }}/win-wpf/focalboard.msix
+
+    - name: Upload app zip package
+      uses: actions/upload-artifact@v1
+      with:
+        name: focalboard-win.zip
+        path: ${{ github.workspace }}/win-wpf/dist/focalboard-win.zip
+
+  plugin:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Replace token 1
+      run: sed -i -e "s,placeholder_rudder_dataplane_url,${{ secrets.RUDDER_DATAPLANE_URL }},g" ${{ github.workspace }}/server/services/telemetry/telemetry.go
+
+    - name: Replace token 2
+      run: sed -i -e "s,placeholder_rudder_key,${{ secrets.RUDDER_DEV_KEY }},g" ${{ github.workspace }}/server/services/telemetry/telemetry.go
+
+    - name: npm install
+      run: cd webapp; npm install --no-optional
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+
+    - name: Set up Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.1.0
+
+    - name: Build webapp
+      run: make webapp
+
+    - name: npm install plugin dependencies
+      run: cd mattermost-plugin/webapp; npm install --no-optional
+
+    - name: Build plugin
+      run: cd mattermost-plugin; make dist
+      env:
+        BUILD_NUMBER: ${{ github.run_id }}
+
+    - name: Rename plugin file
+      run: cd mattermost-plugin/dist; mv focalboard-*.tar.gz mattermost-plugin-focalboard.tar.gz
+
+    - name: Upload plugin artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: mattermost-plugin-focalboard.tar.gz
+        path: ${{ github.workspace }}/mattermost-plugin/dist/mattermost-plugin-focalboard.tar.gz

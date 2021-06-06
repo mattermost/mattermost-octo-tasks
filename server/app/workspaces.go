@@ -55,3 +55,7 @@ func (a *App) UpsertWorkspaceSettings(workspace model.Workspace) error {
 func (a *App) UpsertWorkspaceSignupToken(workspace model.Workspace) error {
 	return a.store.UpsertWorkspaceSignupToken(workspace)
 }
+
+func (a *App) GetWorkspaceCount() (int64, error) {
+	return a.store.GetWorkspaceCount()
+}

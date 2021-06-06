@@ -52,10 +52,13 @@
             background-color: rgba(230, 220, 192, 0.9);
             text-align: center;
             padding: 10px;
+            color: #222;
         }
+
         > .banner.error {
             background-color: rgba(230, 192, 192, 0.9);
         }
+
         > .toolbar {
             display: flex;
             flex-direction: row;

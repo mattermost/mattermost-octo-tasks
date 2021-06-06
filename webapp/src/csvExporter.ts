@@ -67,7 +67,7 @@ class CsvExporter {
             row.push(`"${this.encodeText(card.title)}"`)
             visibleProperties.forEach((template) => {
                 const propertyValue = card.properties[template.id]
-                const displayValue = OctoUtils.propertyDisplayValue(card, propertyValue, template, intl) || ''
+                const displayValue = (OctoUtils.propertyDisplayValue(card, propertyValue, template, intl) || '') as string
                 if (template.type === 'number') {
                     const numericValue = propertyValue ? Number(propertyValue).toString() : ''
                     row.push(numericValue)

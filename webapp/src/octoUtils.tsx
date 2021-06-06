@@ -16,8 +16,8 @@ import {FilterCondition} from './blocks/filterClause'
 import {Utils} from './utils'
 
 class OctoUtils {
-    static propertyDisplayValue(block: IBlock, propertyValue: string | undefined, propertyTemplate: IPropertyTemplate, intl: IntlShape): string | undefined {
-        let displayValue: string | undefined
+    static propertyDisplayValue(block: IBlock, propertyValue: string | string[] | undefined, propertyTemplate: IPropertyTemplate, intl: IntlShape): string | string[] | undefined {
+        let displayValue: string | string[] | undefined
         switch (propertyTemplate.type) {
         case 'select': {
             // The property value is the id of the template
@@ -40,7 +40,7 @@ class OctoUtils {
         }
         case 'date': {
             if (propertyValue) {
-                displayValue = Utils.displayDate(new Date(parseInt(propertyValue, 10)), intl)
+                displayValue = Utils.displayDate(new Date(parseInt(propertyValue as string, 10)), intl)
             }
             break
         }

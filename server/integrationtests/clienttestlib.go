@@ -27,7 +27,7 @@ func getTestConfig() *config.Configuration {
 		connectionString = ":memory:"
 	}
 
-	logging := []byte(`
+	logging := `
 	{
 		"testing": {
 			"type": "console",
@@ -47,7 +47,7 @@ func getTestConfig() *config.Configuration {
 				{"id": 0, "name": "panic", "stacktrace": true}
 			]
 		}
-	}`)
+	}`
 
 	return &config.Configuration{
 		ServerRoot:         "http://localhost:8888",
@@ -58,7 +58,7 @@ func getTestConfig() *config.Configuration {
 		WebPath:            "./pack",
 		FilesDriver:        "local",
 		FilesPath:          "./files",
-		LoggingEscapedJson: string(logging),
+		LoggingEscapedJson: logging,
 	}
 }
 

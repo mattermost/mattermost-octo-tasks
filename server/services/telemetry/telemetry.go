@@ -4,11 +4,11 @@
 package telemetry
 
 import (
-	"log"
 	"os"
 	"strings"
 	"time"
 
+	"github.com/mattermost/focalboard/server/services/mlog"
 	"github.com/mattermost/focalboard/server/services/scheduler"
 	rudder "github.com/rudderlabs/analytics-go"
 )
@@ -19,11 +19,13 @@ const (
 	timeBetweenTelemetryChecks = 10 * time.Minute
 )
 
-type Tracker func() map[string]interface{}
+type TrackerFunc func() (Tracker, error)
+
+type Tracker map[string]interface{}
 
 type Service struct {
-	trackers                   map[string]Tracker
-	log                        *log.Logger
+	trackers                   map[string]TrackerFunc
+	logger                     *mlog.Logger
 	rudderClient               rudder.Client
 	telemetryID                string
 	timestampLastTelemetrySent time.Time
@@ -34,18 +36,18 @@ type RudderConfig struct {
 	DataplaneURL string
 }
 
-func New(telemetryID string, log *log.Logger) *Service {
+func New(telemetryID string, logger *mlog.Logger) *Service {
 	service := &Service{
-		log:         log,
+		logger:      logger,
 		telemetryID: telemetryID,
-		trackers:    map[string]Tracker{},
+		trackers:    map[string]TrackerFunc{},
 	}
 
 	return service
 }
 
-func (ts *Service) RegisterTracker(name string, tracker Tracker) {
-	ts.trackers[name] = tracker
+func (ts *Service) RegisterTracker(name string, f TrackerFunc) {
+	ts.trackers[name] = f
 }
 
 func (ts *Service) getRudderConfig() RudderConfig {
@@ -64,7 +66,12 @@ func (ts *Service) sendDailyTelemetry(override bool) {
 		ts.initRudder(config.DataplaneURL, config.RudderKey)
 
 		for name, tracker := range ts.trackers {
-			ts.sendTelemetry(name, tracker())
+			m, err := tracker()
+			if err != nil {
+				ts.logger.Error("Error fetching telemetry data", mlog.String("name", name), mlog.Err(err))
+				continue
+			}
+			ts.sendTelemetry(name, m)
 		}
 	}
 }
@@ -84,7 +91,7 @@ func (ts *Service) sendTelemetry(event string, properties map[string]interface{}
 func (ts *Service) initRudder(endpoint, rudderKey string) {
 	if ts.rudderClient == nil {
 		config := rudder.Config{}
-		config.Logger = rudder.StdLogger(ts.log)
+		config.Logger = rudder.StdLogger(ts.logger.StdLogger(mlog.Telemetry))
 		config.Endpoint = endpoint
 		// For testing
 		if endpoint != rudderDataplaneURL {
@@ -93,8 +100,7 @@ func (ts *Service) initRudder(endpoint, rudderKey string) {
 		}
 		client, err := rudder.NewWithConfig(rudderKey, endpoint, config)
 		if err != nil {
-			ts.log.Fatal("Failed to create Rudder instance")
-
+			ts.logger.Fatal("Failed to create Rudder instance")
 			return
 		}
 		client.Enqueue(rudder.Identify{

@@ -108,3 +108,27 @@ func (s *SQLStore) GetWorkspace(ID string) (*model.Workspace, error) {
 func (s *SQLStore) HasWorkspaceAccess(userID string, workspaceID string) (bool, error) {
 	return true, nil
 }
+
+func (s *SQLStore) GetWorkspaceCount() (int64, error) {
+	query := s.getQueryBuilder().
+		Select(
+			"COUNT(*) AS count",
+		).
+		From(s.tablePrefix + "workspaces")
+
+	rows, err := query.Query()
+	if err != nil {
+		s.logger.Error("ERROR GetWorkspaceCount", mlog.Err(err))
+		return 0, err
+	}
+
+	var count int64
+
+	rows.Next()
+	err = rows.Scan(&count)
+	if err != nil {
+		s.logger.Error("Failed to fetch workspace count", mlog.Err(err))
+		return 0, err
+	}
+	return count, nil
+}

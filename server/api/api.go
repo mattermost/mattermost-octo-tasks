@@ -71,6 +71,7 @@ func (a *API) RegisterRoutes(r *mux.Router) {
 
 	apiv1.HandleFunc("/workspaces/{workspaceID}", a.sessionRequired(a.handleGetWorkspace)).Methods("GET")
 	apiv1.HandleFunc("/workspaces/{workspaceID}/regenerate_signup_token", a.sessionRequired(a.handlePostWorkspaceRegenerateSignupToken)).Methods("POST")
+	apiv1.HandleFunc("/workspaces/{workspaceID}/users", a.sessionRequired(a.getWorkspaceUsers)).Methods("GET")
 
 	// User APIs
 	apiv1.HandleFunc("/users/me", a.sessionRequired(a.handleGetMe)).Methods("GET")
@@ -1125,6 +1126,59 @@ func (a *API) handleUploadFile(w http.ResponseWriter, r *http.Request) {
 		mlog.String("fileID", fileId),
 	)
 	data, err := json.Marshal(FileUploadResponse{FileID: fileId})
+	if err != nil {
+		a.errorResponse(w, http.StatusInternalServerError, "", err)
+		return
+	}
+
+	jsonBytesResponse(w, http.StatusOK, data)
+}
+
+func (a *API) getWorkspaceUsers(w http.ResponseWriter, r *http.Request) {
+	// swagger:operation GET /api/v1/workspaces/{workspaceID}/users getWorkspaceUsers
+	//
+	// Returns workspace users
+	//
+	// ---
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: workspaceID
+	//   in: path
+	//   description: Workspace ID
+	//   required: true
+	//   type: string
+	// security:
+	// - BearerAuth: []
+	// responses:
+	//   '200':
+	//     description: success
+	//     schema:
+	//       type: array
+	//       items:
+	//         "$ref": "#/definitions/User"
+	//   default:
+	//     description: internal error
+	//     schema:
+	//       "$ref": "#/definitions/ErrorResponse"
+
+	vars := mux.Vars(r)
+	workspaceID := vars["workspaceID"]
+
+	ctx := r.Context()
+	session := ctx.Value("session").(*model.Session)
+	if !a.app().DoesUserHaveWorkspaceAccess(session.UserID, workspaceID) {
+		a.errorResponse(w, http.StatusForbidden, "Access denied to workspace", errors.New("Access denied to workspace"))
+		return
+	}
+
+	users, err := a.app().GetWorkspaceUsers(workspaceID)
+	if err != nil {
+		a.errorResponse(w, http.StatusInternalServerError, "", err)
+		return
+	}
+
+	data, err := json.Marshal(users)
 	if err != nil {
 		a.errorResponse(w, http.StatusInternalServerError, "", err)
 		return

@@ -27,7 +27,6 @@ const Comment: FC<Props> = (props: Props) => {
     const html = Utils.htmlFromMarkdown(comment.title)
 
     const [username, setUsername] = useState('')
-
     useEffect(() => {
         UserCache.shared.getUser(userId).then((user) => {
             if (user) {

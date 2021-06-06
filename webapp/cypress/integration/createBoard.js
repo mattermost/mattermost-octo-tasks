@@ -57,7 +57,7 @@ describe('Create and delete board / card', () => {
             should('have.value', cardTitle);
 
         // Close card
-        cy.get('.Dialog.dialog-back').click({force: true});
+        cy.get('.Dialog.dialog-back .wrapper').click({force: true});
     });
 
     it('Can create a table view', () => {

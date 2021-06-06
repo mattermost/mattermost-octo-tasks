@@ -1,8 +1,10 @@
 package sqlstore
 
 import (
+	"database/sql"
 	"encoding/json"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/mattermost/focalboard/server/model"
@@ -27,26 +29,52 @@ func (s *SQLStore) GetRegisteredUserCount() (int, error) {
 }
 
 func (s *SQLStore) getUserByCondition(condition sq.Eq) (*model.User, error) {
+	users, err := s.getUsersByCondition(condition)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(users) == 0 {
+		return nil, nil
+	}
+
+	return users[0], nil
+}
+
+func (s *SQLStore) getUsersByCondition(condition sq.Eq) ([]*model.User, error) {
 	query := s.getQueryBuilder().
-		Select("id", "username", "email", "password", "mfa_secret", "auth_service", "auth_data", "props", "create_at", "update_at", "delete_at").
+		Select(
+			"id",
+			"username",
+			"email",
+			"password",
+			"mfa_secret",
+			"auth_service",
+			"auth_data",
+			"props",
+			"create_at",
+			"update_at",
+			"delete_at",
+		).
 		From(s.tablePrefix + "users").
 		Where(sq.Eq{"delete_at": 0}).
 		Where(condition)
-	row := query.QueryRow()
-	user := model.User{}
+	rows, err := query.Query()
+	if err != nil {
+		log.Printf("getUsersByCondition ERROR: %v", err)
+		return nil, err
+	}
 
-	var propsBytes []byte
-	err := row.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.MfaSecret, &user.AuthService, &user.AuthData, &propsBytes, &user.CreateAt, &user.UpdateAt, &user.DeleteAt)
+	users, err := s.usersFromRows(rows)
 	if err != nil {
 		return nil, err
 	}
 
-	err = json.Unmarshal(propsBytes, &user.Props)
-	if err != nil {
-		return nil, err
+	if len(users) == 0 {
+		return nil, sql.ErrNoRows
 	}
 
-	return &user, nil
+	return users, nil
 }
 
 func (s *SQLStore) GetUserById(userID string) (*model.User, error) {
@@ -157,4 +185,45 @@ func (s *SQLStore) UpdateUserPasswordByID(userID, password string) error {
 	}
 
 	return nil
+}
+
+func (s *SQLStore) GetUsersByWorkspace(workspaceID string) ([]*model.User, error) {
+	return s.getUsersByCondition(nil)
+}
+
+func (s *SQLStore) usersFromRows(rows *sql.Rows) ([]*model.User, error) {
+	defer rows.Close()
+
+	users := []*model.User{}
+
+	for rows.Next() {
+		var user model.User
+		var propsBytes []byte
+
+		err := rows.Scan(
+			&user.ID,
+			&user.Username,
+			&user.Email,
+			&user.Password,
+			&user.MfaSecret,
+			&user.AuthService,
+			&user.AuthData,
+			&propsBytes,
+			&user.CreateAt,
+			&user.UpdateAt,
+			&user.DeleteAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		err = json.Unmarshal(propsBytes, &user.Props)
+		if err != nil {
+			return nil, err
+		}
+
+		users = append(users, &user)
+	}
+
+	return users, nil
 }

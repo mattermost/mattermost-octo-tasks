@@ -266,6 +266,10 @@ definitions:
         description: Token required to register new users
         type: string
         x-go-name: SignupToken
+      title:
+        description: Title of the workspace
+        type: string
+        x-go-name: Title
       updateAt:
         description: Updated time
         format: int64
@@ -724,6 +728,31 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
       - BearerAuth: []
+  /api/v1/workspaces/{workspaceID}/users:
+    get:
+      description: Returns workspace users
+      operationId: getWorkspaceUsers
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/User'
+            type: array
+        default:
+          description: internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+      - BearerAuth: []
   /workspaces/{workspaceID}/{rootID}/{fileID}:
     get:
       description: Returns the contents of an uploaded file
@@ -764,7 +793,8 @@ schemes:
 - https
 securityDefinitions:
   BearerAuth:
-    description: 'Pass session token using Bearer authentication, e.g. set header "Authorization: Bearer <session token>"'
+    description: 'Pass session token using Bearer authentication, e.g. set header
+      "Authorization: Bearer <session token>"'
     in: header
     name: Authorization
     type: apiKey

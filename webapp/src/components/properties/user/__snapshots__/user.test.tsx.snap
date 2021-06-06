@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/properties/user not readonly 1`] = `
+<div>
+  <div
+    class="UserProperty css-2b097c-container"
+  >
+    <span
+      aria-atomic="false"
+      aria-live="polite"
+      aria-relevant="additions text"
+      class="css-1f43avz-a11yText-A11yText"
+    />
+    <div
+      class=" css-pwgt1w-Control"
+    >
+      <div
+        class=" css-kpfmlq-ValueContainer"
+      >
+        <div
+          class=" css-1wa3eu0-placeholder"
+        >
+          Select...
+        </div>
+        <div
+          class="css-1shkodo-Input"
+        >
+          <div
+            class=""
+            style="display: inline-block;"
+          >
+            <input
+              aria-autocomplete="list"
+              autocapitalize="none"
+              autocomplete="off"
+              autocorrect="off"
+              id="react-select-2-input"
+              spellcheck="false"
+              style="box-sizing: content-box; width: 2px; border: 0px; opacity: 1; outline: 0; padding: 0px;"
+              tabindex="0"
+              type="text"
+              value=""
+            />
+            <div
+              style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class=" css-1hb7zxy-IndicatorsContainer"
+      >
+        <span
+          class=" css-43ykx9-indicatorSeparator"
+        />
+        <div
+          aria-hidden="true"
+          class=" css-19sxey8-indicatorContainer"
+        >
+          <svg
+            aria-hidden="true"
+            class="css-tj5bde-Svg"
+            focusable="false"
+            height="20"
+            viewBox="0 0 20 20"
+            width="20"
+          >
+            <path
+              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/properties/user readonly view 1`] = `
+<div>
+  <div
+    class="UserProperty octo-propertyvalue"
+  >
+    user-id-1
+  </div>
+</div>
+`;
+
+exports[`components/properties/user user dropdown open 1`] = `
+<div>
+  <div
+    class="UserProperty css-2b097c-container"
+  >
+    <span
+      aria-atomic="false"
+      aria-live="polite"
+      aria-relevant="additions text"
+      class="css-1f43avz-a11yText-A11yText"
+    >
+      <span
+        id="aria-selection"
+      />
+      <span
+        id="aria-context"
+      >
+          Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.
+      </span>
+    </span>
+    <div
+      class=" css-pwgt1w-Control"
+    >
+      <div
+        class=" css-kpfmlq-ValueContainer"
+      >
+        <div
+          class=" css-1wa3eu0-placeholder"
+        >
+          Select...
+        </div>
+        <div
+          class="css-1shkodo-Input"
+        >
+          <div
+            class=""
+            style="display: inline-block;"
+          >
+            <input
+              aria-autocomplete="list"
+              autocapitalize="none"
+              autocomplete="off"
+              autocorrect="off"
+              id="react-select-3-input"
+              spellcheck="false"
+              style="box-sizing: content-box; width: 2px; border: 0px; opacity: 1; outline: 0; padding: 0px;"
+              tabindex="0"
+              type="text"
+              value=""
+            />
+            <div
+              style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class=" css-1hb7zxy-IndicatorsContainer"
+      >
+        <span
+          class=" css-43ykx9-indicatorSeparator"
+        />
+        <div
+          aria-hidden="true"
+          class=" css-hl9mox-indicatorContainer"
+        >
+          <svg
+            aria-hidden="true"
+            class="css-tj5bde-Svg"
+            focusable="false"
+            height="20"
+            viewBox="0 0 20 20"
+            width="20"
+          >
+            <path
+              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div
+      class=" css-7p3rb2-menu"
+    >
+      <div
+        class=" css-1m3ubgr-MenuList"
+      >
+        <div
+          class=" css-gg45go-NoOptionsMessage"
+        >
+          No options
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

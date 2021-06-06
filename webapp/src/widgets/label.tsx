@@ -8,13 +8,14 @@ type Props = {
     color?: string
     title?: string
     children: React.ReactNode
+    classNames?: string
 }
 
 // Switch is an on-off style switch / checkbox
 function Label(props: Props): JSX.Element {
     return (
         <span
-            className={`Label ${props.color || 'empty'}`}
+            className={`Label ${props.color || 'empty'} ${props.classNames ? props.classNames : ''}`}
             title={props.title}
         >
             {props.children}

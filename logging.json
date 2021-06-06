@@ -17,7 +17,8 @@
             {"id": 2, "name": "error", "color": 31},
             {"id": 1, "name": "fatal", "stacktrace": true},
             {"id": 0, "name": "panic", "stacktrace": true},
-            {"id": 500, "name": "telemetry", "color":34}
+            {"id": 500, "name": "telemetry", "color":34},
+            {"id": 501, "name": "metrics", "color":34}
         ],
         "maxqueuesize": 1000
     },

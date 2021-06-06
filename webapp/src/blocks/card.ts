@@ -8,7 +8,7 @@ interface Card extends IBlock {
     readonly icon: string
     readonly isTemplate: boolean
     readonly isDefaultTemplate: boolean
-    readonly properties: Readonly<Record<string, string>>
+    readonly properties: Readonly<Record<string, string | string[]>>
     readonly contentOrder: readonly string[]
 
     duplicate(): MutableCard
@@ -36,10 +36,10 @@ class MutableCard extends MutableBlock implements Card {
         this.isTemplate && (this.fields.isDefaultTemplate = value)
     }
 
-    get properties(): Record<string, string> {
-        return this.fields.properties as Record<string, string>
+    get properties(): Record<string, string | string[]> {
+        return this.fields.properties as Record<string, string | string[]>
     }
-    set properties(value: Record<string, string>) {
+    set properties(value: Record<string, string | string[]>) {
         this.fields.properties = value
     }
 
