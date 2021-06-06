@@ -18,6 +18,7 @@ interface BoardView extends IBlock {
     readonly filter: FilterGroup
     readonly cardOrder: readonly string[]
     readonly columnWidths: Readonly<Record<string, number>>
+    readonly defaultTemplateId: string
 
     duplicate(): MutableBoardView
 }
@@ -84,6 +85,14 @@ class MutableBoardView extends MutableBlock implements BoardView {
     }
     set columnWidths(value: Record<string, number>) {
         this.fields.columnWidths = value
+    }
+
+    get defaultTemplateId(): string {
+        return this.fields.defaultTemplateId as string
+    }
+
+    set defaultTemplateId(value: string) {
+        this.fields.defaultTemplateId = value
     }
 
     constructor(block: any = {}) {

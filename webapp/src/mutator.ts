@@ -125,21 +125,10 @@ class Mutator {
         )
     }
 
-    async setAsDefaultTemplate(boardTree: BoardTree, template: Card) {
-        if (!template.isTemplate) {
-            return
-        }
-        const oldTemplates = boardTree.cardTemplates.filter((t) => {
-            return t.id === template.id || t.isDefaultTemplate
-        })
-
-        const newTemplates = oldTemplates.map((t) => {
-            const newTemplate = new MutableCard(t)
-            newTemplate.isDefaultTemplate = newTemplate.id === template.id
-            return newTemplate
-        })
-
-        await this.updateBlocks(newTemplates, oldTemplates, 'set default template')
+    async setDefaultTemplate(boardView: BoardView, templateId: string) {
+        const newBoardView = new MutableBoardView(boardView)
+        newBoardView.defaultTemplateId = templateId
+        await this.updateBlock(newBoardView, boardView, 'set default template')
     }
 
     async changeTitle(block: IBlock, title: string, description = 'change title') {

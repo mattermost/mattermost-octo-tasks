@@ -13,21 +13,21 @@ import OptionsIcon from '../../widgets/icons/options'
 import Menu from '../../widgets/menu'
 import MenuWrapper from '../../widgets/menuWrapper'
 import CheckIcon from '../../widgets/icons/check'
-import {BoardTree} from "../../viewModel/boardTree";
+import {BoardView} from '../../blocks/boardView'
 
 type Props = {
-    boardTree: BoardTree
+    boardView: BoardView
     cardTemplate: Card
     addCardFromTemplate: (cardTemplateId: string) => void
     editCardTemplate: (cardTemplateId: string) => void
 }
 
 const NewCardButtonTemplateItem = React.memo((props: Props) => {
-    const {cardTemplate} = props
+    const {boardView, cardTemplate} = props
     const intl = useIntl()
     const displayName = cardTemplate.title || intl.formatMessage({id: 'ViewHeader.untitled', defaultMessage: 'Untitled'})
 
-    const icon = cardTemplate.isDefaultTemplate ? <CheckIcon/> : cardTemplate.icon
+    const icon = boardView.defaultTemplateId === cardTemplate.id ? <CheckIcon/> : cardTemplate.icon
 
     return (
         <Menu.Text
@@ -47,7 +47,7 @@ const NewCardButtonTemplateItem = React.memo((props: Props) => {
                             id='default'
                             name={intl.formatMessage({id: 'ViewHeader.set-default-template', defaultMessage: 'Set as default'})}
                             onClick={async () => {
-                                await mutator.setAsDefaultTemplate(props.boardTree, cardTemplate)
+                                await mutator.setDefaultTemplate(boardView, cardTemplate.id)
                             }}
                         />
                         <Menu.Text
@@ -63,6 +63,9 @@ const NewCardButtonTemplateItem = React.memo((props: Props) => {
                             id='delete'
                             name={intl.formatMessage({id: 'ViewHeader.delete-template', defaultMessage: 'Delete'})}
                             onClick={async () => {
+                                if (boardView.defaultTemplateId === cardTemplate.id) {
+                                    await mutator.setDefaultTemplate(boardView, '')
+                                }
                                 await mutator.deleteBlock(cardTemplate, 'delete card template')
                             }}
                         />

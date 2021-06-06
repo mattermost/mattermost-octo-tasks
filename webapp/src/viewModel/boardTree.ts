@@ -28,7 +28,6 @@ interface BoardTree {
 
     readonly activeView: BoardView
     readonly groupByProperty?: IPropertyTemplate
-    readonly defaultTemplateId?: string
 
     getSearchText(): string | undefined
     orderedCards(): Card[]
@@ -100,7 +99,6 @@ class MutableBoardTree implements BoardTree {
         boardTree.cardTemplates = blocks.filter((block) => block.type === 'card' && (block as Card).isTemplate).
             sort((a, b) => a.title.localeCompare(b.title)) as MutableCard[]
         boardTree.cards = []
-        boardTree.defaultTemplateId = boardTree.cardTemplates.filter((block) => block.fields?.isDefaultTemplate === true)[0]?.id
 
         boardTree.ensureMinimumSchema()
         return boardTree
