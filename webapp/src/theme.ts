@@ -6,6 +6,8 @@ import isEqual from 'lodash/isEqual'
 
 let activeThemeName: string
 
+import {UserSettings} from './userSettings'
+
 export type Theme = {
     mainBg: string,
     mainFg: string,
@@ -104,9 +106,9 @@ export function setTheme(theme: Theme | null): Theme {
     let consolidatedTheme = defaultTheme
     if (theme) {
         consolidatedTheme = {...defaultTheme, ...theme}
-        localStorage.setItem('theme', JSON.stringify(consolidatedTheme))
+        UserSettings.theme = JSON.stringify(consolidatedTheme)
     } else {
-        localStorage.setItem('theme', '')
+        UserSettings.theme = ''
         const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
         if (darkThemeMq.matches) {
             consolidatedTheme = {...defaultTheme, ...darkTheme}
@@ -154,7 +156,7 @@ function setActiveThemeName(consolidatedTheme: Theme, theme: Theme | null) {
 }
 
 export function loadTheme(): Theme {
-    const themeStr = localStorage.getItem('theme')
+    const themeStr = UserSettings.theme
     if (themeStr) {
         try {
             const theme = JSON.parse(themeStr)
@@ -172,7 +174,7 @@ export function loadTheme(): Theme {
 export function initThemes(): void {
     const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)')
     const changeHandler = () => {
-        const themeStr = localStorage.getItem('theme')
+        const themeStr = UserSettings.theme
         if (!themeStr) {
             setTheme(null)
         }

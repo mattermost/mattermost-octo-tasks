@@ -15,6 +15,7 @@ import {OctoListener} from '../octoListener'
 import {Utils} from '../utils'
 import {BoardTree, MutableBoardTree} from '../viewModel/boardTree'
 import {MutableWorkspaceTree, WorkspaceTree} from '../viewModel/workspaceTree'
+import {UserSettings} from '../userSettings'
 import './boardPage.scss'
 import {IUser, WorkspaceUsersContext, WorkspaceUsersContextData} from '../user'
 
@@ -47,8 +48,8 @@ class BoardPage extends React.Component<Props, State> {
 
         if (!boardId) {
             // Load last viewed boardView
-            boardId = localStorage.getItem('lastBoardId') || ''
-            viewId = localStorage.getItem('lastViewId') || ''
+            boardId = UserSettings.lastBoardId || ''
+            viewId = UserSettings.lastViewId || ''
             if (boardId) {
                 Utils.replaceUrlQueryParam('id', boardId)
             }
@@ -232,8 +233,8 @@ class BoardPage extends React.Component<Props, State> {
 
     private async attachToBoard(boardId?: string, viewId = '') {
         Utils.log(`attachToBoard: ${boardId}`)
-        localStorage.setItem('lastBoardId', boardId || '')
-        localStorage.setItem('lastViewId', viewId)
+        UserSettings.lastBoardId = boardId || ''
+        UserSettings.lastViewId = viewId
 
         if (boardId) {
             this.sync(boardId, viewId)
@@ -386,7 +387,7 @@ class BoardPage extends React.Component<Props, State> {
     }
 
     showView(viewId: string, boardId: string = this.state.boardId): void {
-        localStorage.setItem('lastViewId', viewId)
+        UserSettings.lastViewId = viewId
 
         if (this.state.boardTree && this.state.boardId === boardId) {
             const newBoardTree = this.state.boardTree.copyWithView(viewId)

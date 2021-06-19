@@ -13,6 +13,8 @@ import messages_tr from '../i18n/tr.json'
 import messages_zhHant from '../i18n/zh_Hant.json'
 import messages_zhHans from '../i18n/zh_Hans.json'
 
+import {UserSettings} from './userSettings'
+
 const supportedLanguages = ['de', 'fr', 'ja', 'nl', 'ru', 'es', 'oc', 'tr', 'zh', 'zh_Hant', 'zh_Hans']
 
 export function getMessages(lang: string): {[key: string]: string} {
@@ -44,7 +46,7 @@ export function getMessages(lang: string): {[key: string]: string} {
 }
 
 export function getCurrentLanguage(): string {
-    let lang = localStorage.getItem('language')
+    let lang = UserSettings.language
     if (!lang) {
         if (supportedLanguages.includes(navigator.language)) {
             lang = navigator.language
@@ -58,5 +60,5 @@ export function getCurrentLanguage(): string {
 }
 
 export function storeLanguage(lang: string): void {
-    localStorage.setItem('language', lang)
+    UserSettings.language = lang
 }
