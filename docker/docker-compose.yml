@@ -2,7 +2,8 @@ version: "3"
 services:
   app:
     build:
-      context: ./
+      context: ./..
+      dockerfile: ./docker/Dockerfile
     container_name: focalboard
     ports:
       - 80:8000

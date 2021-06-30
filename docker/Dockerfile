@@ -1,16 +1,26 @@
 FROM golang:alpine as gobuild
 
+ARG USE_LOCAL_SOURCES=false
+
+COPY . ./focalboard
+COPY ./docker/get_sources.sh .
+
 RUN apk update && \
     apk add ca-certificates gcc git make musl-dev && \
-    git clone https://github.com/mattermost/focalboard && \
+    ./get_sources.sh && \
     cd focalboard && \
     make server-linux
 
 FROM node:alpine as nodebuild
 
+ARG USE_LOCAL_SOURCES=false
+
+COPY . ./focalboard
+COPY ./docker/get_sources.sh .
+
 RUN apk update && \
     apk add ca-certificates git && \
-    git clone https://github.com/mattermost/focalboard && \
+    ./get_sources.sh && \
     cd focalboard/webapp && \
     npm install && npm run pack
 
