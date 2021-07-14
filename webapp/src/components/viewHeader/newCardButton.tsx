@@ -22,12 +22,17 @@ type Props = {
 
 const NewCardButton = React.memo((props: Props): JSX.Element => {
     const {boardTree} = props
+    const {activeView} = boardTree
     const intl = useIntl()
 
     return (
         <ButtonWithMenu
             onClick={() => {
-                props.addCard()
+                if (activeView.defaultTemplateId) {
+                    props.addCardFromTemplate(activeView.defaultTemplateId)
+                } else {
+                    props.addCard()
+                }
             }}
             text={(
                 <FormattedMessage
@@ -53,6 +58,7 @@ const NewCardButton = React.memo((props: Props): JSX.Element => {
                 {boardTree.cardTemplates.map((cardTemplate) => (
                     <NewCardButtonTemplateItem
                         key={cardTemplate.id}
+                        boardView={activeView}
                         cardTemplate={cardTemplate}
                         addCardFromTemplate={props.addCardFromTemplate}
                         editCardTemplate={props.editCardTemplate}

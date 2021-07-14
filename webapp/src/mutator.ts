@@ -125,6 +125,12 @@ class Mutator {
         )
     }
 
+    async setDefaultTemplate(boardView: BoardView, templateId: string) {
+        const newBoardView = new MutableBoardView(boardView)
+        newBoardView.defaultTemplateId = templateId
+        await this.updateBlock(newBoardView, boardView, 'set default template')
+    }
+
     async changeTitle(block: IBlock, title: string, description = 'change title') {
         const newBlock = new MutableBlock(block)
         newBlock.title = title

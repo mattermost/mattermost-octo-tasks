@@ -51,6 +51,8 @@ class MutableBoardTree implements BoardTree {
     activeView!: MutableBoardView
     groupByProperty?: IPropertyTemplate
 
+    defaultTemplateId?: string
+
     private searchText?: string
     allCards: MutableCard[] = []
     rawBlocks: IBlock[] = []
