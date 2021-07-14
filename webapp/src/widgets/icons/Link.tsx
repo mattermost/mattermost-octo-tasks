@@ -3,13 +3,13 @@
 
 import React from 'react'
 
-import CompassIcon from './compassIcon'
+import Icon from '@mattermost/compass-components/foundations/icon'
 
 export default function LinkIcon(): JSX.Element {
     return (
-        <CompassIcon
-            icon='link-variant'
-            className='LinkIcon'
+        <Icon
+            glyph='link-variant'
+            size={16}
         />
     )
 }

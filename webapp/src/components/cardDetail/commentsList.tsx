@@ -3,6 +3,8 @@
 import React, {useState} from 'react'
 import {FormattedMessage, useIntl} from 'react-intl'
 
+import Avatar from '@mattermost/compass-components/components/avatar'
+
 import {CommentBlock, MutableCommentBlock} from '../../blocks/commentBlock'
 import mutator from '../../mutator'
 import {Utils} from '../../utils'
@@ -58,9 +60,12 @@ const CommentsList = React.memo((props: Props) => {
             {/* New comment */}
 
             <div className='commentrow'>
-                <img
-                    className='comment-avatar'
-                    src={userImageUrl}
+                <Avatar
+                    name={intl.formatMessage({id: 'CardDetail.new-comment-avatar', defaultMessage: 'Avatar'})}
+                    image={userImageUrl}
+                    onClick={() => null}
+                    size={'xxs'}
+                    disableHover={true}
                 />
                 <MarkdownEditor
                     className='newcomment'

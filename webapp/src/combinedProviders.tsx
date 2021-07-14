@@ -6,6 +6,8 @@ import {DndProvider} from 'react-dnd'
 import {HTML5Backend} from 'react-dnd-html5-backend'
 import {TouchBackend} from 'react-dnd-touch-backend'
 
+import ThemeProvider from '@mattermost/compass-components/utilities/theme/theme-provider'
+
 import {getMessages} from './i18n'
 import {IUser, UserContext} from './user'
 import {SetLanguageContext} from './setLanguageContext'
@@ -28,7 +30,9 @@ const CombinedProviders = React.memo((props: Props): JSX.Element => {
             <SetLanguageContext.Provider value={setLanguage}>
                 <DndProvider backend={Utils.isMobile() ? TouchBackend : HTML5Backend}>
                     <UserContext.Provider value={user}>
-                        {props.children}
+                        <ThemeProvider>
+                            {props.children}
+                        </ThemeProvider>
                     </UserContext.Provider>
                 </DndProvider>
             </SetLanguageContext.Provider>

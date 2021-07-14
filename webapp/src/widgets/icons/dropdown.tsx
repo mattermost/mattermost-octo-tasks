@@ -3,15 +3,13 @@
 
 import React from 'react'
 
-import CompassIcon from './compassIcon'
-
-import './dropdown.scss'
+import Icon from '@mattermost/compass-components/foundations/icon'
 
 export default function DropdownIcon(): JSX.Element {
     return (
-        <CompassIcon
-            icon='chevron-down'
-            className='DropdownIcon'
+        <Icon
+            glyph='chevron-down'
+            size={16}
         />
     )
 }

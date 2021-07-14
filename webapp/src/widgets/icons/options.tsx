@@ -3,15 +3,13 @@
 
 import React from 'react'
 
-import CompassIcon from './compassIcon'
-
-import './options.scss'
+import Icon from '@mattermost/compass-components/foundations/icon'
 
 export default function OptionsIcon(): JSX.Element {
     return (
-        <CompassIcon
-            icon='dots-horizontal'
-            className='OptionsIcon'
+        <Icon
+            glyph='dots-horizontal'
+            size={16}
         />
     )
 }

@@ -6,11 +6,11 @@
     cursor: pointer;
     overflow: visible;
     padding: 0;
+    color: rgb(var(--button-fg));
 
     .button-text {
         padding: 3px 10px;
         background-color: rgb(var(--button-bg));
-        color: rgb(var(--button-fg));
         border-radius: 5px 0 0 5px;
         transition: background 100ms ease-out 0s;
         height: 100%;

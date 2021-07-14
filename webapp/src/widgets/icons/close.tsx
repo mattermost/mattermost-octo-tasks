@@ -3,15 +3,13 @@
 
 import React from 'react'
 
-import CompassIcon from './compassIcon'
-
-import './close.scss'
+import Icon from '@mattermost/compass-components/foundations/icon'
 
 export default function CloseIcon(): JSX.Element {
     return (
-        <CompassIcon
-            icon='close'
-            className='CloseIcon'
+        <Icon
+            glyph='close'
+            size={16}
         />
     )
 }

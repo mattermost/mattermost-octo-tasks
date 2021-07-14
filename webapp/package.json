@@ -24,6 +24,7 @@
 		"updatesnapshots": "jest --updateSnapshot"
 	},
 	"dependencies": {
+		"@mattermost/compass-components": "^0.1.0",
 		"emoji-mart": "^3.0.1",
 		"imagemin-gifsicle": "^7.0.0",
 		"imagemin-mozjpeg": "^9.0.0",

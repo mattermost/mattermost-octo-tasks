@@ -3,6 +3,8 @@
 import React, {FC, useEffect, useState} from 'react'
 import {useIntl} from 'react-intl'
 
+import Avatar from '@mattermost/compass-components/components/avatar'
+
 import {IBlock} from '../../blocks/block'
 import mutator from '../../mutator'
 import {Utils} from '../../utils'
@@ -41,9 +43,12 @@ const Comment: FC<Props> = (props: Props) => {
             className='Comment comment'
         >
             <div className='comment-header'>
-                <img
-                    className='comment-avatar'
-                    src={userImageUrl}
+                <Avatar
+                    name={username}
+                    image={userImageUrl}
+                    onClick={() => null}
+                    size={'xxs'}
+                    disableHover={true}
                 />
                 <div className='comment-username'>{username}</div>
                 <div className='comment-date'>{(new Date(comment.createAt)).toLocaleString()}</div>
