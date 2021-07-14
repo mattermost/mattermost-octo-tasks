@@ -236,6 +236,91 @@ func (s *MattermostAuthLayer) HasWorkspaceAccess(userID string, workspaceID stri
 	return count > 0, nil
 }
 
+func (s *MattermostAuthLayer) getWorkspaceRoles(userID string, workspaceID string) ([]string, error) {
+	query := s.getQueryBuilder().
+		Select("Roles, SchemeGuest, SchemeUser, SchemeAdmin").
+		From("ChannelMembers").
+		Where(sq.Eq{"ChannelID": workspaceID}).
+		Where(sq.Eq{"UserID": userID})
+
+	row := query.QueryRow()
+
+	var result struct {
+		roles       string
+		schemeGuest bool
+		schemeUser  bool
+		schemeAdmin bool
+	}
+	err := row.Scan(&result.roles, &result.schemeGuest, &result.schemeUser, &result.schemeAdmin)
+	if err != nil {
+		return nil, err
+	}
+	workspaceRoles := []string{}
+	roles := strings.Split(result.roles, " ")
+	for _, role := range roles {
+		if role == "workspace_admin" || role == "workspace_editor" || role == "workspace_commenter" || role == "workspace_viewer" {
+			workspaceRoles = append(workspaceRoles, role)
+		}
+	}
+	if len(workspaceRoles) == 0 {
+		if result.schemeAdmin {
+			workspaceRoles = append(workspaceRoles, "workspace_admin")
+		}
+		if result.schemeUser {
+			workspaceRoles = append(workspaceRoles, "workspace_editor")
+		}
+		if result.schemeGuest {
+			workspaceRoles = append(workspaceRoles, "workspace_viewer")
+		}
+	}
+	return workspaceRoles, nil
+}
+
+func (s *MattermostAuthLayer) HasWorkspacePermission(userID string, workspaceID string, permissionID string) bool {
+	roleNames, err := s.getWorkspaceRoles(userID, workspaceID)
+	if err != nil {
+		return false
+	}
+	s.logger.Error("Unable to get roleNames", mlog.Any("roleNames", roleNames))
+
+	query := s.getQueryBuilder().
+		Select("permissions, deleteAt").
+		From("Roles").
+		Where(sq.Eq{"Name": roleNames})
+
+	rows, err := query.Query()
+	if err != nil {
+		s.logger.Error("Unable to get roles", mlog.Err(err))
+		return false
+	}
+	defer rows.Close()
+
+	var role struct {
+		permissions string
+		deleteAt    int
+	}
+	for rows.Next() {
+		err = rows.Scan(&role.permissions, &role.deleteAt)
+		if err != nil {
+			s.logger.Error("Role error", mlog.Err(err))
+			continue
+		}
+		s.logger.Error("Role", mlog.Any("role", role))
+		if role.deleteAt != 0 {
+			continue
+		}
+
+		permissions := strings.Fields(role.permissions)
+		for _, permission := range permissions {
+			if permission == permissionID {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 func (s *MattermostAuthLayer) getQueryBuilder() sq.StatementBuilderType {
 	builder := sq.StatementBuilder
 	if s.dbType == postgresDBType || s.dbType == sqliteDBType {

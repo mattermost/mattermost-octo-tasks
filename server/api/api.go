@@ -332,6 +332,12 @@ func (a *API) handlePostBlocks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := r.Context()
+	session := ctx.Value("session").(*model.Session)
+
+	canCreateCards := a.app.CanCreateCards(session.UserID, container.WorkspaceID)
+	canCreateBoards := a.app.CanCreateBoards(session.UserID, container.WorkspaceID)
+
 	for _, block := range blocks {
 		// Error checking
 		if len(block.Type) < 1 {
@@ -349,6 +355,15 @@ func (a *API) handlePostBlocks(w http.ResponseWriter, r *http.Request) {
 		if block.UpdateAt < 1 {
 			message := fmt.Sprintf("invalid UpdateAt for block id %s", block.ID)
 			a.errorResponse(w, http.StatusBadRequest, message, nil)
+			return
+		}
+
+		if block.Type == "board" && !canCreateBoards {
+			a.errorResponse(w, http.StatusForbidden, "premission denied", nil)
+			return
+		}
+		if block.Type == "card" && !canCreateCards {
+			a.errorResponse(w, http.StatusForbidden, "premission denied", nil)
 			return
 		}
 	}

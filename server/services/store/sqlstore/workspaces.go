@@ -116,6 +116,10 @@ func (s *SQLStore) HasWorkspaceAccess(userID string, workspaceID string) (bool, 
 	return true, nil
 }
 
+func (s *SQLStore) HasWorkspacePermission(userID string, workspaceID string, permissionID string) bool {
+	return true
+}
+
 func (s *SQLStore) GetWorkspaceCount() (int64, error) {
 	query := s.getQueryBuilder().
 		Select(

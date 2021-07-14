@@ -55,5 +55,6 @@ type Store interface {
 	UpsertWorkspaceSettings(workspace model.Workspace) error
 	GetWorkspace(ID string) (*model.Workspace, error)
 	HasWorkspaceAccess(userID string, workspaceID string) (bool, error)
+	HasWorkspacePermission(userID string, workspaceID string, permissionID string) bool
 	GetWorkspaceCount() (int64, error)
 }
