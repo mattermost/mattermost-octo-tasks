@@ -1,4 +1,4 @@
-.Menu {
+.focalboard-body .Menu {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -93,8 +93,8 @@
     }
 }
 
-.Menu,
-.SubMenuOption .SubMenu {
+.focalboard-body .Menu,
+.focalboard-body .SubMenuOption .SubMenu {
     @media screen and (max-width: 430px) {
         position: fixed;
         top: 0;

@@ -2,7 +2,7 @@
 
 exports[`components/RootPortal should match snapshot 1`] = `
 <div
-  id="root-portal"
+  id="focalboard-root-portal"
 >
   <div>
     <div>

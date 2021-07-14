@@ -1,34 +1,31 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "experimentalDecorators": true,
-    "jsx": "react",
-    "baseUrl": "./src",
-    "typeRoots": [ "./src/types", "./node_modules/@types"],
-  },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "!node_modules/@types"
-  ]
+	"compilerOptions": {
+		"jsx": "react",
+		"target": "es2019",
+		"module": "commonjs",
+		"esModuleInterop": true,
+		"noImplicitAny": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"sourceMap": true,
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"incremental": false,
+		"outDir": "./dist",
+		"moduleResolution": "node",
+        "typeRoots": [ "./src/types", "./node_modules/@types"]
+	},
+	"include": [
+        "src",
+        "../../webapp/src"
+	],
+	"exclude": [
+        ".git",
+		"**/node_modules/*",
+		"pack",
+        "dist",
+        "node_modules",
+        "!node_modules/@types"
+    ]
 }

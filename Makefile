@@ -163,7 +163,7 @@ clean:
 	rm -rf mac/dist
 	rm -rf linux/dist
 	rm -rf win-wpf/msix
-	rm win-wpf/focalboard.msix
+	rm -f win-wpf/focalboard.msix
 
 cleanall: clean
 	rm -rf webapp/node_modules

@@ -1,15 +1,31 @@
-import {Store, Action} from 'redux';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import React, {useEffect} from 'react'
+import {Store, Action} from 'redux'
+import {Provider as ReduxProvider} from 'react-redux'
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'mattermost-redux/types/store'
 
-import manifest from './manifest';
+const windowAny = (window as any)
+windowAny.baseURL = '/plugins/focalboard'
+windowAny.frontendBaseURL = '/plug/focalboard'
+
+import App from '../../../webapp/src/app'
+import store from '../../../webapp/src/store'
+
+import '../../../webapp/src/styles/variables.scss'
+import '../../../webapp/src/styles/main.scss'
+import '../../../webapp/src/styles/labels.scss'
+
+import manifest from './manifest'
+import ErrorBoundary from './error_boundary'
 
 // eslint-disable-next-line import/no-unresolved
-import {PluginRegistry} from './types/mattermost-webapp';
+import {PluginRegistry} from './types/mattermost-webapp'
 
 const focalboardIcon = (
     <svg
-        className='LogoWithNameIcon Icon'
+        className='Icon'
         viewBox='0 0 64 64'
         width='24px'
         height='24px'
@@ -25,24 +41,53 @@ const focalboardIcon = (
             />
         </g>
     </svg>
-);
+)
+
+const MainApp = () => {
+    useEffect(() => {
+        document.body.classList.add('focalboard-body')
+        const root = document.getElementById('root')
+        if (root) {
+            root.classList.add('focalboard-plugin-root')
+        }
+
+        return () => {
+            document.body.classList.remove('focalboard-body')
+            if (root) {
+                root.classList.remove('focalboard-plugin-root')
+            }
+        }
+    }, [])
+
+    return (
+        <ErrorBoundary>
+            <ReduxProvider store={store}>
+                <div id='focalboard-app'>
+                    <App/>
+                </div>
+                <div id='focalboard-root-portal'/>
+            </ReduxProvider>
+        </ErrorBoundary>
+    )
+}
 
 export default class Plugin {
-    channelHeaderButtonId: string;
-    registry: PluginRegistry
+    channelHeaderButtonId?: string
+    registry?: PluginRegistry
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     public async initialize(registry: PluginRegistry, store: Store<GlobalState, Action<Record<string, unknown>>>) {
-        this.registry = registry;
+        this.registry = registry
         this.channelHeaderButtonId = registry.registerChannelHeaderButtonAction(focalboardIcon, () => {
-            const currentChannel = store.getState().entities.channels.currentChannelId;
-            window.open(`${window.location.origin}/plugins/focalboard/workspace/${currentChannel}`);
-        }, '', 'Focalboard Workspace');
+            const currentChannel = store.getState().entities.channels.currentChannelId
+            window.open(`${window.location.origin}/plug/focalboard/workspace/${currentChannel}`)
+        }, '', 'Focalboard Workspace')
+        this.registry.registerCustomRoute('/', MainApp)
     }
 
     public uninitialize() {
         if (this.channelHeaderButtonId) {
-            this.registry.unregisterComponent(this.channelHeaderButtonId);
+            this.registry?.unregisterComponent(this.channelHeaderButtonId)
         }
     }
 }
@@ -53,4 +98,4 @@ declare global {
     }
 }
 
-window.registerPlugin(manifest.id, new Plugin());
+window.registerPlugin(manifest.id, new Plugin())

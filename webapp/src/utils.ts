@@ -326,6 +326,18 @@ class Utils {
         return baseURL
     }
 
+    static getFrontendBaseURL(absolute?: boolean): string {
+        let frontendBaseURL = (window as any).frontendBaseURL || this.getBaseURL(absolute)
+        frontendBaseURL = frontendBaseURL.replace(/\/+$/, '')
+        if (frontendBaseURL.indexOf('/') === 0) {
+            frontendBaseURL = frontendBaseURL.slice(1)
+        }
+        if (absolute) {
+            return window.location.origin + '/' + frontendBaseURL
+        }
+        return frontendBaseURL
+    }
+
     static buildURL(path: string, absolute?: boolean): string {
         const baseURL = this.getBaseURL()
         let finalPath = baseURL + path

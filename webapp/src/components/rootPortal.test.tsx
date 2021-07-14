@@ -15,7 +15,7 @@ describe('components/RootPortal', () => {
 
     test('should match snapshot', () => {
         const rootPortalDiv = document.createElement('div')
-        rootPortalDiv.id = 'root-portal'
+        rootPortalDiv.id = 'focalboard-root-portal'
 
         const {getByText, container} = render(
             <RootPortal>

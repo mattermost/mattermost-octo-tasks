@@ -20,5 +20,5 @@ ReactDOM.render(
             <App/>
         </ReduxProvider>
     ),
-    document.getElementById('main-app'),
+    document.getElementById('focalboard-app'),
 )

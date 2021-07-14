@@ -10,7 +10,7 @@ type Props = {
 
 const RootPortal = React.memo((props: Props): JSX.Element => {
     const [el] = useState(document.createElement('div'))
-    const rootPortal = document.getElementById('root-portal')
+    const rootPortal = document.getElementById('focalboard-root-portal')
 
     useEffect(() => {
         if (rootPortal) {

@@ -51,7 +51,7 @@ const App = React.memo((): JSX.Element => {
                 <FlashMessages milliseconds={2000}/>
                 <Router
                     forceRefresh={true}
-                    basename={Utils.getBaseURL()}
+                    basename={Utils.getFrontendBaseURL()}
                 >
                     <div id='frame'>
                         <div id='main'>

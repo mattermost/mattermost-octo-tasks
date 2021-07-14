@@ -4,6 +4,6 @@
 describe('Load homepage', () => {
     it('Can load homepage', () => {
         cy.visit('/');
-        cy.get('div#main-app').should('exist');
+        cy.get('div#focalboard-app').should('exist');
     });
 });

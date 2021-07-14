@@ -1,29 +1,9 @@
 @import "compass-icons";
-
-@font-face {
-    font-family: 'compass-icons';
-    src: url('../fonts/compass-icons/compass-icons.eot?45182295');
-    src: url('../fonts/compass-icons/compass-icons.eot?45182295#iefix') format('embedded-opentype'),
-    url('../fonts/compass-icons/compass-icons.woff2?45182295') format('woff2'),
-    url('../fonts/compass-icons/compass-icons.woff?45182295') format('woff'),
-    url('../fonts/compass-icons/compass-icons.ttf?45182295') format('truetype'),
-    url('../fonts/compass-icons/compass-icons.svg?45182295#compass-icons') format('svg');
-    font-weight: normal;
-    font-style: normal;
+html {
+    height: 100%;
 }
 
-* {
-    box-sizing: border-box;
-    outline: 0;
-    -webkit-user-select: none; /* Chrome all / Safari all */
-    -moz-user-select: none; /* Firefox all */
-    -ms-user-select: none; /* IE 10+ */
-    user-select: none; /* Likely future */
-    font-family: "Open Sans", sans-serif;
-}
-
-html,
-body {
+.focalboard-body, #focalboard-app {
     display: flex;
     flex-direction: column;
 
@@ -31,27 +11,55 @@ body {
     height: 100%;
     color: rgb(var(--body-color));
     background: rgb(var(--main-bg));
+    padding: 0;
+    margin: 0;
 }
 
-input,
-textarea,
-select,
-button {
-    font-size: 100%; /* Normalize */
+.focalboard-plugin-root {
+    height: 100%;
 }
 
-input,
-textarea {
-    background: rgb(var(--main-bg));
-    color: rgb(var(--body-color));
+.focalboard-body {
+    @font-face {
+        font-family: 'compass-icons';
+        src: url('../fonts/compass-icons/compass-icons.eot?45182295');
+        src: url('../fonts/compass-icons/compass-icons.eot?45182295#iefix') format('embedded-opentype'),
+        url('../fonts/compass-icons/compass-icons.woff2?45182295') format('woff2'),
+        url('../fonts/compass-icons/compass-icons.woff?45182295') format('woff'),
+        url('../fonts/compass-icons/compass-icons.ttf?45182295') format('truetype'),
+        url('../fonts/compass-icons/compass-icons.svg?45182295#compass-icons') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
 
-    -webkit-user-select: auto; /* Chrome all / Safari all */
-    -moz-user-select: auto; /* Firefox all */
-    -ms-user-select: auto; /* IE 10+ */
-    user-select: auto; /* Likely future */
-}
+    * {
+        box-sizing: border-box;
+        outline: 0;
+        -webkit-user-select: none; /* Chrome all / Safari all */
+        -moz-user-select: none; /* Firefox all */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none; /* Likely future */
+        font-family: "Open Sans", sans-serif;
+    }
 
-body {
+    input,
+    textarea,
+    select,
+    button {
+        font-size: 100%; /* Normalize */
+    }
+
+    input,
+    textarea {
+        background: rgb(var(--main-bg));
+        color: rgb(var(--body-color));
+
+        -webkit-user-select: auto; /* Chrome all / Safari all */
+        -moz-user-select: auto; /* Firefox all */
+        -ms-user-select: auto; /* IE 10+ */
+        user-select: auto; /* Likely future */
+    }
+
     padding: 0;
     margin: 0;
     font-family: "Open Sans", sans-serif;
@@ -59,184 +67,184 @@ body {
     font-size: 14px;
     line-height: 24px;
     --cursor-color: rgb(var(--body-color));
-}
 
-a {
-    text-decoration: none;
-    color: var(--link-color);
+    a {
+        text-decoration: none;
+        color: var(--link-color);
 
-    &:visited {
-        color: var(--link-visited-color);
+        &:visited {
+            color: var(--link-visited-color);
+        }
+
+        &:hover {
+            background-color: rgba(192, 192, 255, 0.2);
+        }
     }
 
-    &:hover {
-        background-color: rgba(192, 192, 255, 0.2);
-    }
-}
-
-hr {
-    width: 100%;
-    height: 1px;
-    border: none;
-    color: rgba(var(--body-color), 0.09);
-    background-color: rgba(var(--body-color), 0.09);
-    margin-bottom: 8px;
-}
-
-button {
-    &.style--none {
-        background: transparent;
+    hr {
+        width: 100%;
+        height: 1px;
         border: none;
-        padding: 0;
+        color: rgba(var(--body-color), 0.09);
+        background-color: rgba(var(--body-color), 0.09);
+        margin-bottom: 8px;
     }
-}
 
-.page-loading {
-    margin: 50px auto;
-}
+    button {
+        &.style--none {
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+    }
 
-.title,
-h1 {
-    font-size: 40px;
-    line-height: 40px;
-    margin: 0 0 10px 0;
-    font-weight: 600;
-}
+    .page-loading {
+        margin: 50px auto;
+    }
 
-/* App frame */
+    .title,
+    h1 {
+        font-size: 40px;
+        line-height: 40px;
+        margin: 0 0 10px 0;
+        font-weight: 600;
+    }
 
-#main-app {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-}
+    /* App frame */
 
-#main-app #frame,
-#main-app #main,
-#main-app .BoardPage {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-}
+    #root {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
 
-/* Main app */
+    #frame,
+    #main,
+    .BoardPage {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
 
-.dragover {
-    background-color: rgba(128, 192, 255, 0.4);
-}
+    /* Main app */
 
-.octo-spacer {
-    flex: 1;
-}
+    .dragover {
+        background-color: rgba(128, 192, 255, 0.4);
+    }
 
-/* Icons */
+    .octo-spacer {
+        flex: 1;
+    }
 
-.octo-icon {
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji,
-        "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
-    line-height: 1.5em;
-    align-self: baseline;
-    overflow: visible;
-}
+    /* Icons */
 
-.octo-icontitle {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    min-width: 0;
-}
+    .octo-icon {
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji,
+            "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
+        line-height: 1.5em;
+        align-self: baseline;
+        overflow: visible;
+    }
 
-/*-- Property list --*/
+    .octo-icontitle {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        min-width: 0;
+    }
 
-.octo-propertyvalue {
-    color: rgb(var(--body-color));
-    padding: 0 5px;
-    &.empty {
+    /*-- Property list --*/
+
+    .octo-propertyvalue {
+        color: rgb(var(--body-color));
+        padding: 0 5px;
+        &.empty {
+            color: rgba(var(--body-color), 0.4);
+        }
+    }
+
+    /*-- Editable --*/
+
+    .Editable {
+        cursor: text;
+    }
+
+    .Editable.active {
+        min-width: 100px;
+    }
+
+    .octo-placeholder {
         color: rgba(var(--body-color), 0.4);
     }
-}
 
-/*-- Editable --*/
-
-.Editable {
-    cursor: text;
-}
-
-.Editable.active {
-    min-width: 100px;
-}
-
-.octo-placeholder {
-    color: rgba(var(--body-color), 0.4);
-}
-
-[contentEditable="true"] {
-    -webkit-user-select: auto; /* Chrome all / Safari all */
-    -moz-user-select: auto; /* Firefox all */
-    -ms-user-select: auto; /* IE 10+ */
-    user-select: auto; /* Likely future */
-}
-
-[contentEditable="true"]:empty:before {
-    content: attr(placeholder);
-    display: block;
-    color: rgba(var(--body-color), 0.4);
-}
-
-.octo-propertyvalue.Editable.active,
-.octo-table-cell .Editable.active {
-    border-radius: 3px;
-    box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
-        rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
-}
-
-.octo-block img {
-    max-width: 500px;
-    max-height: 500px;
-    margin: 5px 0;
-    object-fit: contain;
-    flex: none;
-}
-
-.octo-content {
-    width: 100%;
-    margin-right: 50px;
-}
-
-.octo-block {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-
-    width: 100%;
-
-    @media not screen and (max-width: 975px) {
-        padding-right: 126px;
+    [contentEditable="true"] {
+        -webkit-user-select: auto; /* Chrome all / Safari all */
+        -moz-user-select: auto; /* Firefox all */
+        -ms-user-select: auto; /* IE 10+ */
+        user-select: auto; /* Likely future */
     }
-    @media screen and (max-width: 975px) {
+
+    [contentEditable="true"]:empty:before {
+        content: attr(placeholder);
+        display: block;
+        color: rgba(var(--body-color), 0.4);
+    }
+
+    .octo-propertyvalue.Editable.active,
+    .octo-table-cell .Editable.active {
+        border-radius: 3px;
+        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
+            rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
+    }
+
+    .octo-block img {
+        max-width: 500px;
+        max-height: 500px;
+        margin: 5px 0;
+        object-fit: contain;
+        flex: none;
+    }
+
+    .octo-content {
+        width: 100%;
+        margin-right: 50px;
+    }
+
+    .octo-block {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+
+        width: 100%;
+
+        @media not screen and (max-width: 975px) {
+            padding-right: 126px;
+        }
+        @media screen and (max-width: 975px) {
+            padding-right: 10px;
+        }
+
+        > * {
+            flex: 1 1 auto;
+        }
+        > .octo-block-margin {
+            flex: 0 0 auto;
+        }
+    }
+
+    .octo-block-margin {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding-top: 10px;
         padding-right: 10px;
-    }
 
-    > * {
-        flex: 1 1 auto;
-    }
-    > .octo-block-margin {
-        flex: 0 0 auto;
-    }
-}
-
-.octo-block-margin {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-end;
-    padding-top: 10px;
-    padding-right: 10px;
-
-    @media not screen and (max-width: 975px) {
-        width: 126px;
+        @media not screen and (max-width: 975px) {
+            width: 126px;
+        }
     }
 }
