@@ -13,6 +13,7 @@
 
     pre.CodeMirror-line {
         padding: 0;
+        word-break: break-word;
     }
 
     .CodeMirror,
@@ -44,6 +45,7 @@
         p {
             margin: 0;
             min-height: 32px;
+            word-break: break-word;
         }
     }
 

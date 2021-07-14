@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl'
 
 import {BlockTypes} from '../blocks/block'
 import {Card} from '../blocks/card'
-import {IContentBlock} from '../blocks/contentBlock'
 import mutator from '../mutator'
 import {Utils} from '../utils'
 import Menu from '../widgets/menu'
@@ -15,14 +14,14 @@ import {contentRegistry} from './content/contentRegistry'
 
 type Props = {
     type: BlockTypes
-    block: IContentBlock
     card: Card
-    contents: readonly IContentBlock[]
+    cords: {x: number, y?: number, z?: number}
 }
 
 const AddContentMenuItem = React.memo((props:Props): JSX.Element => {
-    const {card, contents, block, type} = props
-    const index = contents.indexOf(block)
+    const {card, type, cords} = props
+    const index = cords.x
+    const contentOrder = card.contentOrder.slice()
     const intl = useIntl()
 
     const handler = contentRegistry.getHandler(type)
@@ -42,7 +41,6 @@ const AddContentMenuItem = React.memo((props:Props): JSX.Element => {
                 newBlock.parentId = card.id
                 newBlock.rootId = card.rootId
 
-                const contentOrder = contents.map((o) => o.id)
                 contentOrder.splice(index, 0, newBlock.id)
                 const typeName = handler.getDisplayText(intl)
                 const description = intl.formatMessage({id: 'ContentBlock.addElement', defaultMessage: 'add {type}'}, {type: typeName})

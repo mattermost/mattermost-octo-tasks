@@ -8,7 +8,7 @@ interface Card extends IBlock {
     readonly icon: string
     readonly isTemplate: boolean
     readonly properties: Readonly<Record<string, string | string[]>>
-    readonly contentOrder: readonly string[]
+    readonly contentOrder: Readonly<Array<string | string[]>>
 
     duplicate(): MutableCard
 }
@@ -35,10 +35,10 @@ class MutableCard extends MutableBlock implements Card {
         this.fields.properties = value
     }
 
-    get contentOrder(): string[] {
+    get contentOrder(): Array<string | string[]> {
         return this.fields.contentOrder
     }
-    set contentOrder(value: string[]) {
+    set contentOrder(value: Array<string | string[]>) {
         this.fields.contentOrder = value
     }
 

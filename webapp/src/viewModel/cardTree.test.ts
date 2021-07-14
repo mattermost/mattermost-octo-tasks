@@ -57,8 +57,9 @@ test('CardTree', async () => {
     const image2 = TestBlockFactory.createImage(card)
     await Utils.sleep(10)
     const divider2 = TestBlockFactory.createDivider(card)
+    card.contentOrder.push(...[text2.id, image2.id, divider2.id])
 
-    cardTree = MutableCardTree.incrementalUpdate(cardTree, [comment2, text2, image2, divider2])
+    cardTree = MutableCardTree.incrementalUpdate(cardTree, [card, comment2, text2, image2, divider2])
     expect(cardTree).not.toBeUndefined()
     if (!cardTree) {
         fail('incrementalUpdate')
@@ -79,6 +80,7 @@ test('CardTree', async () => {
         fail('incrementalUpdate')
     }
 
+    card.contentOrder = [text.id, image.id, divider.id]
     FetchMock.fn.mockReturnValueOnce(FetchMock.jsonResponse(JSON.stringify([card, comment, text, image, divider])))
     cardTree = await MutableCardTree.sync(card.id)
     expect(cardTree).not.toBeUndefined()

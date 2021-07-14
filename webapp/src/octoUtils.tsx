@@ -52,29 +52,6 @@ class OctoUtils {
         return displayValue
     }
 
-    static relativeBlockOrder(partialOrder: readonly string[], blocks: readonly IBlock[], blockA: IBlock, blockB: IBlock): number {
-        const orderA = partialOrder.indexOf(blockA.id)
-        const orderB = partialOrder.indexOf(blockB.id)
-
-        if (orderA >= 0 && orderB >= 0) {
-            // Order of both blocks is specified
-            return orderA - orderB
-        }
-        if (orderA >= 0) {
-            return -1
-        }
-        if (orderB >= 0) {
-            return 1
-        }
-
-        // Order of both blocks are unspecified, use create date
-        return blockA.createAt - blockB.createAt
-    }
-
-    static getBlockOrder(partialOrder: readonly string[], blocks: readonly IBlock[]): IBlock[] {
-        return blocks.slice().sort((a, b) => this.relativeBlockOrder(partialOrder, blocks, a, b))
-    }
-
     static hydrateBlock(block: IBlock): MutableBlock {
         switch (block.type) {
         case 'board': { return new MutableBoard(block) }
@@ -149,7 +126,7 @@ class OctoUtils {
             // Remap card content order
             if (newBlock.type === 'card') {
                 const card = newBlock as MutableCard
-                card.contentOrder = card.contentOrder.map((o) => idMap[o])
+                card.contentOrder = card.contentOrder.map((o) => (Array.isArray(o) ? o.map((o2) => idMap[o2]) : idMap[o]))
             }
         })
 

@@ -203,7 +203,6 @@ h1 {
 
 .octo-content {
     width: 100%;
-    margin-right: 50px;
 }
 
 .octo-block {
@@ -213,9 +212,6 @@ h1 {
 
     width: 100%;
 
-    @media not screen and (max-width: 975px) {
-        padding-right: 126px;
-    }
     @media screen and (max-width: 975px) {
         padding-right: 10px;
     }
@@ -233,10 +229,8 @@ h1 {
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-end;
-    padding-top: 10px;
-    padding-right: 10px;
 
     @media not screen and (max-width: 975px) {
-        width: 126px;
+        width: 48px;
     }
 }

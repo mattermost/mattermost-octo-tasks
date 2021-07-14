@@ -171,7 +171,7 @@ class Mutator {
         await this.updateBlock(newBoard, board, actionDescription)
     }
 
-    async changeCardContentOrder(card: Card, contentOrder: string[], description = 'reorder'): Promise<void> {
+    async changeCardContentOrder(card: Card, contentOrder: Array<string | string[]>, description = 'reorder'): Promise<void> {
         const newCard = new MutableCard(card)
         newCard.contentOrder = contentOrder
         await this.updateBlock(newCard, card, description)

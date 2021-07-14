@@ -3,8 +3,9 @@
 import {IBlock, MutableBlock} from './block'
 
 type IContentBlock = IBlock
+type IContentBlockWithCords = {block: IBlock, cords: {x: number, y?: number, z?: number}}
 
 class MutableContentBlock extends MutableBlock implements IContentBlock {
 }
 
-export {IContentBlock, MutableContentBlock}
+export {IContentBlock, IContentBlockWithCords, MutableContentBlock}

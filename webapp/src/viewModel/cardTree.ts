@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react'
 
-import {ContentBlockTypes, contentBlockTypes, IBlock} from '../blocks/block'
+import {ContentBlockTypes, contentBlockTypes, IBlock, MutableBlock} from '../blocks/block'
 import {Card, MutableCard} from '../blocks/card'
 import {CommentBlock} from '../blocks/commentBlock'
 import {IContentBlock} from '../blocks/contentBlock'
@@ -12,7 +12,7 @@ import {OctoUtils} from '../octoUtils'
 interface CardTree {
     readonly card: Card
     readonly comments: readonly CommentBlock[]
-    readonly contents: readonly IContentBlock[]
+    readonly contents: Readonly<Array< IContentBlock |IContentBlock[] >>
     readonly allBlocks: readonly IBlock[]
     readonly latestBlock: IBlock
 }
@@ -20,11 +20,11 @@ interface CardTree {
 class MutableCardTree implements CardTree {
     card: MutableCard
     comments: CommentBlock[] = []
-    contents: IContentBlock[] = []
+    contents: (IContentBlock[] | IContentBlock)[] = []
     latestBlock: IBlock
 
     get allBlocks(): IBlock[] {
-        return [this.card, ...this.comments, ...this.contents]
+        return [this.card, ...this.comments, ...this.contents.flat()]
     }
 
     constructor(card: MutableCard) {
@@ -62,7 +62,14 @@ class MutableCardTree implements CardTree {
             sort((a, b) => a.createAt - b.createAt) as CommentBlock[]
 
         const contentBlocks = blocks.filter((block) => contentBlockTypes.includes(block.type as ContentBlockTypes)) as IContentBlock[]
-        cardTree.contents = OctoUtils.getBlockOrder(card.contentOrder, contentBlocks)
+
+        cardTree.contents = card.contentOrder.map((contentIds) => {
+            if (Array.isArray(contentIds)) {
+                return contentIds.map((contentId) => contentBlocks.find((content) => content.id === contentId)).filter((content): content is IContentBlock => Boolean(content))
+            }
+
+            return contentBlocks.find((content) => content.id === contentIds) || new MutableBlock()
+        })
 
         cardTree.latestBlock = MutableCardTree.getMostRecentBlock(cardTree)
 
