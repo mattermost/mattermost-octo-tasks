@@ -14,16 +14,18 @@ WORKDIR /go/src/focalboard
 ADD . /go/src/focalboard
 
 RUN  make server-linux
+RUN mkdir /data
 
 ## Final image
 FROM gcr.io/distroless/base-debian10
 
 WORKDIR /opt/focalboard
 
-COPY --from=nodebuild /webapp/pack pack/
-COPY --from=gobuild /go/src/focalboard/bin/linux/focalboard-server bin/
-COPY --from=gobuild /go/src/focalboard/LICENSE.txt LICENSE.txt
-COPY --from=gobuild /go/src/focalboard/docker/server_config.json config.json
+COPY --from=gobuild --chown=nobody:nobody /data /data
+COPY --from=nodebuild --chown=nobody:nobody /webapp/pack pack/
+COPY --from=gobuild --chown=nobody:nobody /go/src/focalboard/bin/linux/focalboard-server bin/
+COPY --from=gobuild --chown=nobody:nobody /go/src/focalboard/LICENSE.txt LICENSE.txt
+COPY --from=gobuild --chown=nobody:nobody /go/src/focalboard/docker/server_config.json config.json
 
 USER nobody
 
