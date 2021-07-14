@@ -109,9 +109,6 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: win-node-env
-      run: npm install -g win-node-env
-
     - name: npm install
       run: cd webapp; npm install --no-optional
 

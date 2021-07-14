@@ -78,7 +78,6 @@ You can build standalone apps that package the server to run locally against SQL
     * *Tested with: Ubuntu 18.04*
 * Windows:
     * Open a git-bash prompt
-    * Install win-node-env `npm install -g win-node-env`
     * `make win-wpf-app`
     * run `cd win-wpf/msix && focalboard.exe`
     * *Requires: Windows 10*

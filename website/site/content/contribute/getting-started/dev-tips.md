@@ -14,7 +14,6 @@ Check that you have recent versions of the basic dependencies installed:
 * [Node](https://nodejs.org/en/download/) (v10+) and [npm](https://www.npmjs.com/get-npm)
 
 On Windows:
-* `npm install -g win-node-env` for npm run to work
 * Install [Mingw64](https://chocolatey.org/packages/mingw) via [Chocolatey](https://chocolatey.org/)
 
 On Mac, to build the Mac app:
