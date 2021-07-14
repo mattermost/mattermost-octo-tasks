@@ -133,6 +133,7 @@
   "TableHeaderMenu.sort-ascending": "Sortera stigande",
   "TableHeaderMenu.sort-descending": "Sortera fallande",
   "TableRow.open": "Öppna",
+  "TableRow.delete": "Radera",
   "View.AddView": "Lägg till vy",
   "View.Board": "Tavla",
   "View.DeleteView": "Radera vy",

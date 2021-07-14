@@ -133,6 +133,7 @@
   "TableHeaderMenu.sort-ascending": "Ordem ascendente",
   "TableHeaderMenu.sort-descending": "Ordem descendente",
   "TableRow.open": "Abrir",
+  "TableRow.delete": "Deletar",
   "View.AddView": "Adicionar Vista",
   "View.Board": "Quadro",
   "View.DeleteView": "Deletar Vista",

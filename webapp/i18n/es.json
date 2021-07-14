@@ -113,6 +113,7 @@
   "TableHeaderMenu.sort-ascending": "Orden ascendente",
   "TableHeaderMenu.sort-descending": "Orden descendente",
   "TableRow.open": "Abrir",
+  "TableRow.delete": "Borrar",
   "View.NewBoardTitle": "Vista de panel",
   "View.NewTableTitle": "Vista de tabla",
   "ViewHeader.add-template": "+ Nueva plantilla",

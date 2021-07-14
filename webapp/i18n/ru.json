@@ -132,6 +132,7 @@
   "TableHeaderMenu.sort-ascending": "Сортировать по возрастанию",
   "TableHeaderMenu.sort-descending": "Сортировать по убыванию",
   "TableRow.open": "Открыть",
+  "TableRow.delete": "Удалить",
   "View.AddView": "Добавить вид",
   "View.Board": "Доска",
   "View.DeleteView": "Удалить вид",

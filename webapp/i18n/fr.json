@@ -132,6 +132,7 @@
   "TableHeaderMenu.sort-ascending": "Tri ascendant",
   "TableHeaderMenu.sort-descending": "Tri descendant",
   "TableRow.open": "Ouvrir",
+  "TableRow.delete": "Supprimer",
   "View.AddView": "Ajouter une vue",
   "View.Board": "Tableau",
   "View.DeleteView": "Supprimer la vue",

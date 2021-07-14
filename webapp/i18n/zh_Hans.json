@@ -133,6 +133,7 @@
   "TableHeaderMenu.sort-ascending": "升序排列",
   "TableHeaderMenu.sort-descending": "降序排列",
   "TableRow.open": "开启",
+  "TableRow.delete": "删除",
   "View.AddView": "添加视图",
   "View.Board": "版面",
   "View.DeleteView": "删除视图",

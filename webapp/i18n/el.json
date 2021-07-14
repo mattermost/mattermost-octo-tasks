@@ -46,5 +46,6 @@
   "PropertyType.UpdatedBy": "Ενημερώθηκε από",
   "PropertyType.UpdatedTime": "Ώρα Ενημέρωσης",
   "RegistrationLink.copyLink": "Αντιγραφή συνδέσμου",
-  "RegistrationLink.description": "Μοιραστείτε αυτόν τον σύνδεσμο με άλλους για να δημιουργήσουν λογαριασμούς:"
+  "RegistrationLink.description": "Μοιραστείτε αυτόν τον σύνδεσμο με άλλους για να δημιουργήσουν λογαριασμούς:",
+  "TableRow.delete": "Διαγραφή"
 }

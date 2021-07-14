@@ -39,6 +39,17 @@ exports[`components/table/TableRows should match snapshot, fire events 1`] = `
         </button>
       </div>
     </div>
+    <div
+      class="MenuWrapper optionsMenu"
+    >
+      <div
+        class="Button IconButton"
+      >
+        <i
+          class="CompassIcon icon-dots-horizontal OptionsIcon"
+        />
+      </div>
+    </div>
   </div>
 </div>
 `;

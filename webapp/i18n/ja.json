@@ -133,6 +133,7 @@
   "TableHeaderMenu.sort-ascending": "昇順でソート",
   "TableHeaderMenu.sort-descending": "降順でソート",
   "TableRow.open": "開く",
+  "TableRow.delete": "削除",
   "View.AddView": "ビューを追加",
   "View.Board": "ボード",
   "View.DeleteView": "ビューの削除",

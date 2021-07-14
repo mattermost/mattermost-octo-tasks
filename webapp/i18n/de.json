@@ -133,6 +133,7 @@
   "TableHeaderMenu.sort-ascending": "Aufsteigend sortieren",
   "TableHeaderMenu.sort-descending": "Absteigend sortieren",
   "TableRow.open": "Öffnen",
+  "TableRow.delete": "Löschen",
   "View.AddView": "Ansicht hinzufügen",
   "View.Board": "Board",
   "View.DeleteView": "Ansicht löschen",

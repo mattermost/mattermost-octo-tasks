@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useState, useRef, useEffect} from 'react'
-import {FormattedMessage} from 'react-intl'
+import {FormattedMessage, useIntl} from 'react-intl'
 
+import {Utils} from '../../utils'
 import {Card} from '../../blocks/card'
 import {Constants} from '../../constants'
 import mutator from '../../mutator'
@@ -10,6 +11,12 @@ import {BoardTree} from '../../viewModel/boardTree'
 import Button from '../../widgets/buttons/button'
 import Editable from '../../widgets/editable'
 import {useSortable} from '../../hooks/sortable'
+
+import IconButton from '../../widgets/buttons/iconButton'
+import DeleteIcon from '../../widgets/icons/delete'
+import OptionsIcon from '../../widgets/icons/options'
+import Menu from '../../widgets/menu'
+import MenuWrapper from '../../widgets/menuWrapper'
 
 import PropertyValueElement from '../propertyValueElement'
 import './tableRow.scss'
@@ -33,6 +40,7 @@ type Props = {
 
 const TableRow = React.memo((props: Props) => {
     const {boardTree, onSaveWithEnter, columnRefs} = props
+    const intl = useIntl()
     const {board, activeView} = boardTree
 
     const titleRef = useRef<{focus(selectAll?: boolean): void}>(null)
@@ -140,6 +148,28 @@ const TableRow = React.memo((props: Props) => {
                             />
                         </div>)
                 })}
+
+            <MenuWrapper
+                className='optionsMenu'
+                stopPropagationOnToggle={true}
+            >
+                <IconButton icon={<OptionsIcon/>}/>
+                <Menu position='left'>
+                    <Menu.Text
+                        icon={<DeleteIcon/>}
+                        id='delete'
+                        name={intl.formatMessage({id: 'TableRow.delete', defaultMessage: 'Delete'})}
+                        onClick={async () => {
+                            if (!card) {
+                                Utils.assertFailure()
+                                return
+                            }
+                            await mutator.deleteBlock(card, 'delete card')
+                        }}
+                    />
+
+                </Menu>
+            </MenuWrapper>
         </div>
     )
 })
