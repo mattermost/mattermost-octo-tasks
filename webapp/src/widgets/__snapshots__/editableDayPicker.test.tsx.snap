@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`widgets/EditableDayPicker cancel set via text input 1`] = `
+<div>
+  <div
+    class="EditableDayPicker "
+  >
+    <button
+      class="Button  "
+      type="button"
+    >
+      6/15/2021 -&gt; 6/20/2021
+    </button>
+  </div>
+</div>
+`;
+
+exports[`widgets/EditableDayPicker handle clear 1`] = `
+<div>
+  <div
+    class="EditableDayPicker "
+  >
+    <button
+      class="Button  "
+      type="button"
+    >
+      6/15/2021
+    </button>
+  </div>
+</div>
+`;
+
+exports[`widgets/EditableDayPicker returns default correctly 1`] = `
+<div>
+  <div
+    class="EditableDayPicker "
+  >
+    <button
+      class="Button  "
+      type="button"
+    >
+      Empty
+    </button>
+  </div>
+</div>
+`;
+
+exports[`widgets/EditableDayPicker returns default correctly, es local 1`] = `
+<div>
+  <div
+    class="EditableDayPicker "
+  >
+    <button
+      class="Button  "
+      type="button"
+    >
+      15/6/2021
+    </button>
+  </div>
+</div>
+`;
+
+exports[`widgets/EditableDayPicker set via text input 1`] = `
+<div>
+  <div
+    class="EditableDayPicker "
+  >
+    <button
+      class="Button  "
+      type="button"
+    >
+      6/15/2021 -&gt; 6/20/2021
+    </button>
+  </div>
+</div>
+`;

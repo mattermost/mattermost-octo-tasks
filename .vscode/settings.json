@@ -8,8 +8,8 @@
         "typescriptreact"
     ],
     "files.exclude": {
-        ".vscode": true,
-        "**/__snapshots__": true,
+        ".vscode": false,
+        "**/__snapshots__": false,
         "**/node_modules": true,
         "bin": true,
         "files": true,

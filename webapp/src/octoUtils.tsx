@@ -3,6 +3,8 @@
 
 import {IntlShape} from 'react-intl'
 
+import {DateUtils} from 'react-day-picker'
+
 import {IBlock, MutableBlock} from './blocks/block'
 import {IPropertyTemplate, MutableBoard} from './blocks/board'
 import {MutableBoardView} from './blocks/boardView'
@@ -14,8 +16,6 @@ import {MutableImageBlock} from './blocks/imageBlock'
 import {MutableTextBlock} from './blocks/textBlock'
 import {FilterCondition} from './blocks/filterClause'
 import {Utils} from './utils'
-import {UserSettings} from './userSettings'
-
 class OctoUtils {
     static propertyDisplayValue(block: IBlock, propertyValue: string | string[] | undefined, propertyTemplate: IPropertyTemplate, intl: IntlShape): string | string[] | undefined {
         let displayValue: string | string[] | undefined
@@ -41,7 +41,19 @@ class OctoUtils {
         }
         case 'date': {
             if (propertyValue) {
-                displayValue = Utils.displayDate(new Date(parseInt(propertyValue as string, 10)), intl, UserSettings.preferredDateFormat)
+                const singleDate = new Date(parseInt(propertyValue as string, 10))
+                if (singleDate && DateUtils.isDate(singleDate)) {
+                    displayValue = Utils.displayDate(new Date(parseInt(propertyValue as string, 10)), intl)
+                } else {
+                    const dateValue = JSON.parse(propertyValue as string)
+                    if (dateValue.from) {
+                        displayValue = Utils.displayDate(new Date(dateValue.from), intl)
+                    }
+                    if (dateValue.to) {
+                        displayValue += ' -> '
+                        displayValue += Utils.displayDate(new Date(dateValue.to), intl)
+                    }
+                }
             }
             break
         }
