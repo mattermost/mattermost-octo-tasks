@@ -108,10 +108,15 @@ func main() {
 	w.SetTitle("Focalboard")
 	w.SetSize(1024, 768, webview.HintNone)
 
-	script := fmt.Sprintf("localStorage.setItem('focalboardSessionId', '%s');", sessionToken)
+	baseUrl := fmt.Sprintf("http://localhost:%d", port)
+	w.Navigate(baseUrl)
+	script := fmt.Sprintf(`
+		if (window.location.href.startsWith('%s')) {
+			localStorage.setItem('focalboardSessionId', '%s');
+		}
+	`, baseUrl, sessionToken)
 	w.Init(script)
 
-	w.Navigate(fmt.Sprintf("http://localhost:%d", port))
 	w.Bind("openInNewBrowser", openBrowser)
 	w.Init(`
 document.addEventListener('click', function (e) {
