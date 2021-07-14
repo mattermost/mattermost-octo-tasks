@@ -151,7 +151,7 @@ Change the dbconfig setting to use the postgres database you created:
 
 ```
 "dbtype": "postgres",
-"dbconfig": "postgres://boardsuser:boardsuser-password@localhost/boards?sslmode=disable&connect_timeout=10",
+"dbconfig": "postgresql://boardsuser:boardsuser-password@localhost/boards?sslmode=disable&connect_timeout=10",
 ```
 
 ## Install MySQL 
