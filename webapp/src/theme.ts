@@ -64,7 +64,7 @@ export const darkTheme = {
     ...defaultTheme,
 
     mainBg: '55, 53, 47',
-    mainFg: '200, 200, 200',
+    mainFg: '220, 220, 220',
     buttonBg: '80, 170, 221',
     buttonFg: '255, 255, 255',
     sidebarBg: '75, 73, 67',
@@ -74,7 +74,7 @@ export const darkTheme = {
     link: '#0090ff',
     linkVisited: 'hsla(270, 68%, 70%, 1.0)',
 
-    propDefault: 'hsla(0, 100%, 100%, 0.4)',
+    propDefault: 'hsla(0, 100%, 100%, 0.08)',
     propGray: 'hsla(0, 0%, 70%, 0.4)',
     propBrown: 'hsla(25, 60%, 40%, 0.4)',
     propOrange: 'hsla(35, 100%, 50%, 0.4)',
