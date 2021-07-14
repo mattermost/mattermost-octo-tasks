@@ -134,7 +134,7 @@ namespace Focalboard {
 
 			webView.ContentLoading += WebView_ContentLoading;
 
-			var url = String.Format("http://localhost:{0}", port);
+			var url = String.Format("http://localhost:{0}/", port);
 			webView.Source = new Uri(url);
 		}
 
@@ -146,7 +146,10 @@ namespace Focalboard {
 
 		private void WebView_ContentLoading(object sender, CoreWebView2ContentLoadingEventArgs e) {
 			// Set focalboardSessionId
-			string script = $"localStorage.setItem('focalboardSessionId', '{sessionToken}');";
+			var url = String.Format("http://localhost:{0}/", port);
+			string script = $@"if (window.location.href.toLowerCase().startsWith('{url}'.toLowerCase())) {{
+				localStorage.setItem('focalboardSessionId', '{sessionToken}');
+			}}";
 			webView.ExecuteScriptAsync(script);
 		}
 	}
