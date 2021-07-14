@@ -64,6 +64,7 @@ const ViewTitle = React.memo((props: Props) => {
                         }}
                         icon={<ShowIcon/>}
                     >
+                        <span className="non-breaking-space"></span>
                         <FormattedMessage
                             id='ViewTitle.show-description'
                             defaultMessage='show description'
